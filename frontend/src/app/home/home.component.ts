@@ -17,7 +17,6 @@ export class HomeComponent implements OnInit {
 
   ngOnInit(): void {
     this.oidcSecurityService.checkAuth();
-    this.getWeather();
   }
 
   login() {
@@ -26,11 +25,5 @@ export class HomeComponent implements OnInit {
 
   logout() {
     this.oidcSecurityService.logoff();
-  }
-
-  getWeather() {
-    this.weatherService.getWeather().subscribe((data) => {
-      this.weather = data;
-    });
   }
 }

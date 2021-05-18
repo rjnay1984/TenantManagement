@@ -9,9 +9,17 @@ import { OidcSecurityService } from 'angular-auth-oidc-client';
 export class AppComponent implements OnInit {
   title = 'Tenant Management';
 
-  constructor(private oidcSecurityService: OidcSecurityService) {}
+  constructor(public oidcSecurityService: OidcSecurityService) {}
 
   ngOnInit(): void {
     this.oidcSecurityService.checkAuth().subscribe();
+  }
+
+  login() {
+    this.oidcSecurityService.authorize();
+  }
+
+  logout() {
+    this.oidcSecurityService.logoff();
   }
 }
