@@ -45,13 +45,16 @@ namespace Identity
                     ClientSecrets = { new Secret("49C1A7E1-0C79-4A89-A3D6-A37998FB86B0".Sha256()) },
 
                     AllowedGrantTypes = GrantTypes.Code,
+                    AllowedCorsOrigins = { "http://localhost:4200" },
 
-                    RedirectUris = { "https://localhost:44300/signin-oidc" },
-                    FrontChannelLogoutUri = "https://localhost:44300/signout-oidc",
-                    PostLogoutRedirectUris = { "https://localhost:44300/signout-callback-oidc" },
+                    RedirectUris = { "http://localhost:4200/signin-oidc", "http://localhost:4200" },
+                    FrontChannelLogoutUri = "http://localhost:4200/signout-oidc",
+                    PostLogoutRedirectUris = { "http://localhost:4200/signout-callback-oidc", "http://localhost:4200" },
+
+                    RequireClientSecret = false,
 
                     AllowOfflineAccess = true,
-                    AllowedScopes = { "openid", "profile", "scope2" }
+                    AllowedScopes = { "openid", "profile", "scope1" }
                 },
             };
     }
