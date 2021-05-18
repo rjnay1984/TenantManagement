@@ -55,6 +55,13 @@ namespace API
             app.UseAuthentication();
             app.UseAuthorization();
 
+            app.UseCors(builder =>
+            {
+                builder.AllowAnyMethod();
+                builder.AllowAnyHeader();
+                builder.WithOrigins("http://localhost:4200");
+            });
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
