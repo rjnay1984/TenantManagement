@@ -1,0 +1,3 @@
+<ng-container *ngIf="oidcSecurityService.userData$ | async as userData">
+  <pre>{{ userData | json }}</pre>
+</ng-container>

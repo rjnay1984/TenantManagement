@@ -9,9 +9,10 @@ import { HomeComponent } from './home/home.component';
 import { MaterialModule } from './material.module';
 import { UnauthorizedComponent } from './unauthorized/unauthorized.component';
 import { WeatherComponent } from './weather/weather.component';
+import { UserinfoComponent } from './userinfo/userinfo.component';
 
 @NgModule({
-  declarations: [AppComponent, HomeComponent, UnauthorizedComponent, WeatherComponent],
+  declarations: [AppComponent, HomeComponent, UnauthorizedComponent, WeatherComponent, UserinfoComponent],
   imports: [BrowserModule, AppRoutingModule, MaterialModule, AuthConfigModule, CoreModule],
   providers: [],
   bootstrap: [AppComponent],

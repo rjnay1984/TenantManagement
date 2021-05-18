@@ -3,6 +3,7 @@
   <div class="nav-items">
     <a mat-button routerLink="/">Home</a>
     <a mat-button routerLink="/weather">Weather</a>
+    <a mat-button routerLink="/userinfo">User Info</a>
   </div>
   <span class="example-spacer"></span>
   <ng-container *ngIf="oidcSecurityService.userData$ | async as user; else notLoggedIn">
