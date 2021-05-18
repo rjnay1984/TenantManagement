@@ -40,6 +40,7 @@
           }
         ],
         "import/prefer-default-export": "off", // if using airbnb
+        "import/no-extraneous-dependencies": "off",
         "prettier/prettier": "error"
       }
     },

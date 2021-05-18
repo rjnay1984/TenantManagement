@@ -1,23 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { OidcSecurityService } from 'angular-auth-oidc-client';
-
-import { WeatherService } from '../core/weather.service';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent {
   title = 'Tenant Management';
 
   weather: any = [];
 
-  constructor(public oidcSecurityService: OidcSecurityService, private weatherService: WeatherService) {}
-
-  ngOnInit(): void {
-    this.oidcSecurityService.checkAuth();
-  }
+  constructor(public oidcSecurityService: OidcSecurityService) {}
 
   login() {
     this.oidcSecurityService.authorize();
