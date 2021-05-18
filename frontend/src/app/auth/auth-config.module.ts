@@ -8,7 +8,7 @@ export function configureAuth(oidcConfigService: OidcConfigService): () => Promi
       redirectUrl: window.location.origin,
       postLogoutRedirectUri: window.location.origin,
       clientId: 'interactive',
-      scope: 'openid profile offline_access scope1', // 'openid profile offline_access ' + your scopes
+      scope: 'openid profile email offline_access scope1', // 'openid profile offline_access ' + your scopes
       responseType: 'code',
       silentRenew: true,
       useRefreshToken: true,

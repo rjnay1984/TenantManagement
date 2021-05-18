@@ -1,14 +1,1 @@
-<mat-toolbar>
-  <button mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon">
-    <mat-icon>menu</mat-icon>
-  </button>
-  <span class="app-title">{{ title }}</span>
-  <span class="example-spacer"></span>
-  <ng-container *ngIf="oidcSecurityService.userData$ | async as user; else notLoggedIn">
-    <span class="username">Welcome {{ user.given_name }}</span>
-    <button mat-raised-button color="secondary" (click)="logout()">Logout</button>
-  </ng-container>
-  <ng-template #notLoggedIn>
-    <button mat-raised-button color="primary" (click)="login()">Login</button>
-  </ng-template>
-</mat-toolbar>
+<code>Home component</code>
