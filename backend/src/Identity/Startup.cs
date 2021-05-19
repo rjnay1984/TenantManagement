@@ -31,7 +31,7 @@ namespace Identity
             services.AddControllersWithViews();
 
             services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlite(Configuration.GetConnectionString("DefaultConnection"), 
+                options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection"), 
                     o => o.MigrationsAssembly(typeof(Startup).Assembly.FullName)));
 
             services.AddIdentity<ApplicationUser, IdentityRole>()
