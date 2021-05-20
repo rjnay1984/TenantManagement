@@ -4,7 +4,7 @@ import { AuthModule, LogLevel, OidcConfigService } from 'angular-auth-oidc-clien
 export function configureAuth(oidcConfigService: OidcConfigService): () => Promise<any> {
   return () =>
     oidcConfigService.withConfig({
-      stsServer: 'https://localhost:5001',
+      stsServer: 'identity:80',
       redirectUrl: window.location.origin,
       postLogoutRedirectUri: window.location.origin,
       clientId: 'interactive',
