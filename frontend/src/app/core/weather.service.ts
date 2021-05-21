@@ -9,6 +9,6 @@ export class WeatherService {
   constructor(private http: HttpClient) {}
 
   getWeather() {
-    return this.http.get('https://localhost:5002/weatherforecast').pipe(map((response: any) => response));
+    return this.http.get('https://localhost:5004/weatherforecast').pipe(map((response: any) => response));
   }
 }

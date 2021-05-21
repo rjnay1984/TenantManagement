@@ -48,7 +48,10 @@ namespace API
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "API v1"));
             }
 
-            app.UseHttpsRedirection();
+            if (env.IsProduction())
+            {
+                app.UseHttpsRedirection();
+            }
 
             app.UseRouting();
 
@@ -57,9 +60,9 @@ namespace API
 
             app.UseCors(builder =>
             {
-                builder.AllowAnyMethod();
-                builder.AllowAnyHeader();
-                builder.WithOrigins("http://localhost:4200");
+                builder.AllowAnyOrigin()
+                    .AllowAnyMethod()
+                    .AllowAnyHeader();
             });
 
             app.UseEndpoints(endpoints =>
