@@ -1,6 +1,5 @@
 FROM mcr.microsoft.com/dotnet/sdk:5.0
-EXPOSE 80
-EXPOSE 5003
+EXPOSE 80 443
 
 WORKDIR /src
 

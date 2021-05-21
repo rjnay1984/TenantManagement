@@ -18,26 +18,38 @@ services:
   identity:
     build:
       context: .
-      dockerfile: /backend/src/Identity/Dockerfile
+      dockerfile: backend/src/Identity/Dockerfile
     depends_on:
       - db
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - BUILD_CONFIGURATION=Debug
-      - DOTNET_USE_POLLING_FILE_WATCHER=true
+      - ASPNETCORE_URLS=https://+:443;http://+:80
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=password
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
+    volumes:
+      - ~/.aspnet/https:/https:ro
     ports:
       - 5001:80
-    command: dotnet run --no-build --no-launch-profile --urls http://0.0.0.0:80
+      - 5002:443
+    command: dotnet run --no-build --no-launch-profile -c Debug
 
   api:
     build:
       context: .
       dockerfile: backend/src/API/Dockerfile
+    depends_on:
+      - identity
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=https://+:443;http://+:80
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=password
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
+    volumes:
+      - ~/.aspnet/https:/https:ro
     ports:
-      - 5002:5003
-    command: dotnet run --no-launch-profile -c Debug --urls http://0.0.0.0:5003
+      - 5003:80
+      - 5004:443
+    command: dotnet run --no-build --no-launch-profile -c Debug
 
   client:
     build:
@@ -46,8 +58,11 @@ services:
     volumes:
       - ./frontend:/app
       - /frontend/node_modules
+    depends_on:
+      - identity
+      - api
     environment:
       - CHOKIDAR_USEPOLLING=true
     ports:
-      - 4200:80
-    command: npm start -- --host 0.0.0.0 --disable-host-check --poll 1 --port 80
+      - 4200:4200
+    command: npm start -- --host 0.0.0.0 --disable-host-check --poll 1 --port 4200

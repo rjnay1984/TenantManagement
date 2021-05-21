@@ -1,6 +1,6 @@
 
 FROM mcr.microsoft.com/dotnet/sdk:3.1
-EXPOSE 80
+EXPOSE 80 443
 
 WORKDIR /src
 COPY ["backend/src/Identity/Identity.csproj", "Identity/"]
@@ -10,5 +10,3 @@ COPY ./backend/src/Identity ./Identity
 WORKDIR "/src/Identity"
 
 RUN dotnet build -c Debug
-
-# ENTRYPOINT ["dotnet", "run", "--no-build", "--no-launch-profile", "-c", "$BUILD_CONFIGURATION", "--"]

@@ -8,7 +8,7 @@ import { WeatherComponent } from './weather/weather.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
-  { path: 'weather', component: WeatherComponent, canActivate: [AuthGuard] },
+  { path: 'weather', component: WeatherComponent },
   { path: 'userinfo', component: UserinfoComponent, canActivate: [AuthGuard] },
   { path: 'unauthorized', component: UnauthorizedComponent }
 ];
