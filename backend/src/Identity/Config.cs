@@ -54,7 +54,7 @@ namespace Identity
                     RequireClientSecret = false,
 
                     AllowOfflineAccess = true,
-                    AllowedScopes = { "openid", "profile", "email", "roles" }
+                    AllowedScopes = { "openid", "profile", "email", "roles", "resourcerole" }
                 },
             };
     }
