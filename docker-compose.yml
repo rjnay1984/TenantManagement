@@ -6,6 +6,8 @@ services:
     restart: always
     ports:
       - 5432:5432
+    volumes:
+      - pg_data:/var/lib/postgresql/data
     environment:
       POSTGRES_PASSWORD: postgres
 
@@ -28,10 +30,12 @@ services:
       - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
     volumes:
       - ~/.aspnet/https:/https:ro
+      - ./backend/src/Identity/SeedData.cs:/src/Identity/SeedData.cs
+      - ./backend/src/identity/Config.cs:/src/Identity/Config.cs
     ports:
       - 5001:80
       - 5002:443
-    command: dotnet run --no-build --no-launch-profile -c Debug
+    command: dotnet watch run --no-build --no-launch-profile -c Debug
 
   api:
     build:
@@ -49,7 +53,7 @@ services:
     ports:
       - 5003:80
       - 5004:443
-    command: dotnet run --no-build --no-launch-profile -c Debug
+    command: dotnet watch run --no-build --no-launch-profile -c Debug
 
   client:
     build:
@@ -66,3 +70,6 @@ services:
     ports:
       - 4200:4200
     command: npm start -- --host 0.0.0.0 --disable-host-check --poll 1 --port 4200
+
+volumes:
+  pg_data:
