@@ -5,7 +5,7 @@ import { OidcSecurityService } from 'angular-auth-oidc-client';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
 import { MaterialModule } from './material.module';
-import { UnauthorizedComponent } from './unauthorized/unauthorized.component';
+import { UnauthorizedComponent } from './core/unauthorized/unauthorized.component';
 import { WeatherComponent } from './weather/weather.component';
 
 describe('AppComponent', () => {

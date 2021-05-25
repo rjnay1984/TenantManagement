@@ -3,6 +3,7 @@
 
 
 using Duende.IdentityServer.Models;
+using IdentityModel;
 using System.Collections.Generic;
 
 namespace Identity
@@ -15,13 +16,13 @@ namespace Identity
                 new IdentityResources.OpenId(),
                 new IdentityResources.Profile(),
                 new IdentityResources.Email(),
+                new IdentityResource("resourcerole", new[] {JwtClaimTypes.Role})
             };
 
         public static IEnumerable<ApiScope> ApiScopes =>
             new ApiScope[]
             {
-                new ApiScope("scope1"),
-                new ApiScope("scope2"),
+                new ApiScope(name: "roles", displayName: "See the roles for the user", userClaims: new[]{JwtClaimTypes.Role}),
             };
 
         public static IEnumerable<Client> Clients =>
@@ -35,8 +36,6 @@ namespace Identity
 
                     AllowedGrantTypes = GrantTypes.ClientCredentials,
                     ClientSecrets = { new Secret("511536EF-F270-4058-80CA-1C89C192F69A".Sha256()) },
-
-                    AllowedScopes = { "scope1" }
                 },
 
                 // interactive client using code flow + pkce
@@ -55,7 +54,7 @@ namespace Identity
                     RequireClientSecret = false,
 
                     AllowOfflineAccess = true,
-                    AllowedScopes = { "openid", "profile", "email", "scope1" }
+                    AllowedScopes = { "openid", "profile", "email", "roles", "resourcerole" }
                 },
             };
     }

@@ -35,6 +35,55 @@ namespace Identity
                     var context = scope.ServiceProvider.GetService<ApplicationDbContext>();
                     context.Database.Migrate();
 
+                    var roleMgr = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+                    var adminRole = roleMgr.FindByNameAsync("Admin").Result;
+                    if (adminRole == null)
+                    {
+                        Log.Debug("No admin role. Creating...");
+                        adminRole = new IdentityRole("Admin");
+
+                        var result = roleMgr.CreateAsync(adminRole);
+                        result.Wait();
+                        if (!result.IsCompletedSuccessfully)
+                        {
+                            throw new Exception(result.Exception.Message);
+                        }
+
+                        Log.Debug("Admin role created");
+                    }
+
+                    var landlordRole = roleMgr.FindByNameAsync("Landlord").Result;
+                    if (landlordRole == null)
+                    {
+                        Log.Debug("No landlord role. Creating...");
+                        landlordRole = new IdentityRole("Landlord");
+
+                        var result = roleMgr.CreateAsync(landlordRole);
+                        result.Wait();
+                        if(!result.IsCompletedSuccessfully)
+                        {
+                            throw new Exception(result.Exception.Message);
+                        }
+
+                        Log.Debug("Landlord role created");
+                    }
+
+                    var tenantRole = roleMgr.FindByNameAsync("Tenant").Result;
+                    if (tenantRole == null)
+                    {
+                        Log.Debug("No tenant role. Creating...");
+                        tenantRole = new IdentityRole("Tenant");
+
+                        var result = roleMgr.CreateAsync(tenantRole);
+                        result.Wait();
+                        if (!result.IsCompletedSuccessfully)
+                        {
+                            throw new Exception(result.Exception.Message);
+                        }
+
+                        Log.Debug("Tenant role created");
+                    }
+
                     var userMgr = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
                     var alice = userMgr.FindByNameAsync("alice").Result;
                     if (alice == null)
@@ -44,8 +93,15 @@ namespace Identity
                             UserName = "alice",
                             Email = "AliceSmith@email.com",
                             EmailConfirmed = true,
-                        };
+                        }; 
+
                         var result = userMgr.CreateAsync(alice, "Pass123$").Result;
+                        if (!result.Succeeded)
+                        {
+                            throw new Exception(result.Errors.First().Description);
+                        }
+
+                        result = userMgr.AddToRolesAsync(alice, new[] { "Admin" }).Result;
                         if (!result.Succeeded)
                         {
                             throw new Exception(result.Errors.First().Description);
@@ -61,6 +117,7 @@ namespace Identity
                         {
                             throw new Exception(result.Errors.First().Description);
                         }
+
                         Log.Debug("alice created");
                     }
                     else
@@ -83,6 +140,12 @@ namespace Identity
                             throw new Exception(result.Errors.First().Description);
                         }
 
+                        result = userMgr.AddToRoleAsync(bob, "Landlord").Result;
+                        if (!result.Succeeded)
+                        {
+                            throw new Exception(result.Errors.First().Description);
+                        }
+
                         result = userMgr.AddClaimsAsync(bob, new Claim[]{
                             new Claim(JwtClaimTypes.Name, "Bob Smith"),
                             new Claim(JwtClaimTypes.GivenName, "Bob"),
@@ -99,6 +162,41 @@ namespace Identity
                     else
                     {
                         Log.Debug("bob already exists");
+                    }
+
+                    var aaron = userMgr.FindByNameAsync("aaron").Result;
+                    if (aaron == null)
+                    {
+                        aaron = new ApplicationUser
+                        {
+                            UserName = "aaron",
+                            Email = "aaron@email.com",
+                            EmailConfirmed = true
+                        };
+
+                        var result = userMgr.CreateAsync(aaron, "Pass123$").Result;
+                        if (!result.Succeeded)
+                        {
+                            throw new Exception(result.Errors.First().Description);
+                        }
+
+                        result = userMgr.AddToRoleAsync(aaron, "Tenant").Result;
+                        if (!result.Succeeded)
+                        {
+                            throw new Exception(result.Errors.First().Description);
+                        }
+
+                        result = userMgr.AddClaimsAsync(aaron, new Claim[]{
+                            new Claim(JwtClaimTypes.Name, "Aaron Rodgers"),
+                            new Claim(JwtClaimTypes.GivenName, "Aaron"),
+                            new Claim(JwtClaimTypes.FamilyName, "Rodgers"),
+                        }).Result;
+                        if (!result.Succeeded)
+                        {
+                            throw new Exception(result.Errors.First().Description);
+                        }
+
+                        Log.Debug("Aaron created");
                     }
                 }
             }
