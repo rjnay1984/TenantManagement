@@ -101,7 +101,7 @@ namespace Identity
                             throw new Exception(result.Errors.First().Description);
                         }
 
-                        result = userMgr.AddToRolesAsync(alice, new[] { "Admin", "Landlord" }).Result;
+                        result = userMgr.AddToRolesAsync(alice, new[] { "Admin" }).Result;
                         if (!result.Succeeded)
                         {
                             throw new Exception(result.Errors.First().Description);

@@ -22,6 +22,7 @@ namespace API
         {
 
             services.AddControllers();
+            services.AddCors();
             services.AddAuthentication("Bearer")
                 .AddJwtBearer("Bearer", options =>
                 {
@@ -55,15 +56,16 @@ namespace API
 
             app.UseRouting();
 
-            app.UseAuthentication();
-            app.UseAuthorization();
-
             app.UseCors(builder =>
             {
-                builder.AllowAnyOrigin()
+                builder.AllowAnyHeader()
                     .AllowAnyMethod()
-                    .AllowAnyHeader();
+                    .AllowCredentials()
+                    .WithOrigins("http://localhost:4200");
             });
+
+            app.UseAuthentication();
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {

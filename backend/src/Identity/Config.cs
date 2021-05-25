@@ -16,7 +16,7 @@ namespace Identity
                 new IdentityResources.OpenId(),
                 new IdentityResources.Profile(),
                 new IdentityResources.Email(),
-                new IdentityResource("resourcerole", new[] {"role"})
+                new IdentityResource("resourcerole", new[] {JwtClaimTypes.Role})
             };
 
         public static IEnumerable<ApiScope> ApiScopes =>
