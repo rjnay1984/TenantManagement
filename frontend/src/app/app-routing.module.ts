@@ -13,7 +13,7 @@ const routes: Routes = [
   { path: 'weather', component: WeatherComponent, canActivate: [RoleGuard] },
   { path: 'userinfo', component: UserinfoComponent, canActivate: [AuthGuard] },
   { path: 'unauthorized', component: UnauthorizedComponent },
-  { path: '**', pathMatch: 'full', component: NotFoundComponent }
+  { path: '**', pathMatch: 'full', component: NotFoundComponent },
 ];
 
 @NgModule({
