@@ -10,7 +10,7 @@ describe('RoleGuard', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [RouterTestingModule],
-      providers: [{ provide: OidcSecurityService }]
+      providers: [{ provide: OidcSecurityService }],
     });
     guard = TestBed.inject(RoleGuard);
   });
