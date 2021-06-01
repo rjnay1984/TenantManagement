@@ -94,6 +94,13 @@ namespace Identity.Areas.Identity.Pages.Account
                 {
                     _logger.LogInformation("User created a new account with password.");
 
+                    // Adding registered user to tenant role by default. Can be changed by admin in user management.
+                    var roleResult = await _userManager.AddToRoleAsync(user, "Tenant");
+                    if (roleResult.Succeeded)
+                    {
+                        _logger.LogInformation("User added to tenant role.");
+                    }
+
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
                     var callbackUrl = Url.Page(
@@ -115,6 +122,7 @@ namespace Identity.Areas.Identity.Pages.Account
                         return LocalRedirect(returnUrl);
                     }
                 }
+
                 foreach (var error in result.Errors)
                 {
                     ModelState.AddModelError(string.Empty, error.Description);

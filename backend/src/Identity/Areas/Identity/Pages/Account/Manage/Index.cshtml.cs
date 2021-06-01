@@ -22,6 +22,8 @@ namespace Identity.Areas.Identity.Pages.Account.Manage
 
         public string Username { get; set; }
 
+        public string Role { get; set; }
+
         [TempData]
         public string StatusMessage { get; set; }
 
@@ -47,8 +49,10 @@ namespace Identity.Areas.Identity.Pages.Account.Manage
         {
             var userName = await _userManager.GetUserNameAsync(user);
             var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
+            var roles = await _userManager.GetRolesAsync(user);
 
             Username = userName;
+            Role = roles[0];
 
             Input = new InputModel
             {
