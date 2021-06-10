@@ -1,27 +1,26 @@
-/* eslint-disable import/no-extraneous-dependencies */
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
+import { CanActivate, Router } from '@angular/router';
 import { OidcSecurityService } from 'angular-auth-oidc-client';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+
+export interface UserInfo {
+  role: string;
+}
 
 @Injectable({
   providedIn: 'root',
 })
 export class RoleGuard implements CanActivate {
+  token = this.oidcSecurityService.getToken();
+
   constructor(private oidcSecurityService: OidcSecurityService, private router: Router) {}
 
-  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
-    return this.oidcSecurityService.userData$.pipe(
-      map((data: any) => {
-        if (!data || !data.role || (data.role !== 'Admin' && data.role !== 'Landlord')) {
-          this.router.navigateByUrl('/unauthorized');
-          return false;
-        }
+  canActivate(): boolean {
+    const userInfo: UserInfo = JSON.parse(window.atob(this.token.split('.')[1]));
+    if (!userInfo || !userInfo.role || (userInfo.role !== 'Admin' && userInfo.role !== 'Landlord')) {
+      this.router.navigateByUrl('/unauthorized');
+      return false;
+    }
 
-        return true;
-      })
-    );
+    return true;
   }
 }

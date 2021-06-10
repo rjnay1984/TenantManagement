@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { OidcSecurityService } from 'angular-auth-oidc-client';
 import { Observable } from 'rxjs';
 
@@ -10,9 +11,27 @@ import { Observable } from 'rxjs';
 export class UserinfoComponent implements OnInit {
   userData$!: Observable<any>;
 
-  constructor(public oidcSecurityService: OidcSecurityService) {}
+  token = '';
+
+  constructor(public oidcSecurityService: OidcSecurityService, private snackBar: MatSnackBar) {}
 
   ngOnInit(): void {
     this.userData$ = this.oidcSecurityService.userData$;
+    this.token = this.oidcSecurityService.getToken();
+  }
+
+  copyToken() {
+    navigator.clipboard.writeText(this.token).then(
+      () => {
+        this.snackBar.open('Token copied to clipboard!', 'Dismiss', {
+          duration: 3000,
+        });
+      },
+      (err) => {
+        this.snackBar.open(`Error: ${err}`, 'Dismiss', {
+          duration: 3000,
+        });
+      }
+    );
   }
 }

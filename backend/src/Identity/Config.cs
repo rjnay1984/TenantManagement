@@ -12,7 +12,6 @@ namespace Identity
                 new IdentityResources.OpenId(),
                 new IdentityResources.Profile(),
                 new IdentityResources.Email(),
-                new IdentityResource("resourcerole", new[]  { JwtClaimTypes.Role })
             };
 
         public static IEnumerable<ApiScope> ApiScopes =>
@@ -50,7 +49,7 @@ namespace Identity
                     RequireClientSecret = false,
 
                     AllowOfflineAccess = true,
-                    AllowedScopes = { "openid", "profile", "email", "role", "resourcerole" }
+                    AllowedScopes = { "openid", "profile", "email", "role" }
                 },
             };
     }
