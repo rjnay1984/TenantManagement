@@ -21,6 +21,7 @@ describe('UserinfoComponent', () => {
           useValue: {
             userData$: of('sup'),
             getToken: jest.fn(),
+            getIdToken: jest.fn(),
           },
         },
         MatSnackBar,
