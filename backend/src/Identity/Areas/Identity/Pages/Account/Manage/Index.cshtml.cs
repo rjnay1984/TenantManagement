@@ -1,7 +1,10 @@
-﻿using Identity.Models;
+﻿using Identity.Helpers;
+using Identity.Models;
+using IdentityServer4.Extensions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.Extensions.Logging;
 using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 
@@ -11,13 +14,16 @@ namespace Identity.Areas.Identity.Pages.Account.Manage
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly ILogger<IndexModel> _logger;
 
         public IndexModel(
             UserManager<ApplicationUser> userManager,
-            SignInManager<ApplicationUser> signInManager)
+            SignInManager<ApplicationUser> signInManager,
+            ILogger<IndexModel> logger)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _logger = logger;
         }
 
         public string Username { get; set; }
@@ -77,6 +83,7 @@ namespace Identity.Areas.Identity.Pages.Account.Manage
         public async Task<IActionResult> OnPostAsync()
         {
             var user = await _userManager.GetUserAsync(User);
+
             if (user == null)
             {
                 return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
@@ -89,6 +96,7 @@ namespace Identity.Areas.Identity.Pages.Account.Manage
             }
 
             var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
+
             if (Input.PhoneNumber != phoneNumber)
             {
                 var setPhoneResult = await _userManager.SetPhoneNumberAsync(user, Input.PhoneNumber);
@@ -109,7 +117,15 @@ namespace Identity.Areas.Identity.Pages.Account.Manage
                 user.LastName = Input.LastName;
             }
 
+            var currentClaims = await _userManager.GetClaimsAsync(user);
+            await _userManager.RemoveClaimsAsync(user, currentClaims);
+
             await _userManager.UpdateAsync(user);
+
+            if (!user.FirstName.IsNullOrEmpty() || !user.LastName.IsNullOrEmpty())
+            {
+                await ClaimsManager.AddUserClaimsAsync(user, _userManager, _logger);
+            }
 
             await _signInManager.RefreshSignInAsync(user);
             StatusMessage = "Your profile has been updated";

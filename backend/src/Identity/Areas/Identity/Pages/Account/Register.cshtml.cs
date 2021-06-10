@@ -1,4 +1,6 @@
-﻿using Identity.Models;
+﻿using Identity.Helpers;
+using Identity.Models;
+using IdentityServer4.Extensions;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -82,8 +84,8 @@ namespace Identity.Areas.Identity.Pages.Account
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser 
-                { 
+                var user = new ApplicationUser
+                {
                     UserName = Input.Email,
                     Email = Input.Email,
                     FirstName = Input.FirstName,
@@ -99,6 +101,12 @@ namespace Identity.Areas.Identity.Pages.Account
                     if (roleResult.Succeeded)
                     {
                         _logger.LogInformation("User added to tenant role.");
+                    }
+
+                    // Adding the default user claims.
+                    if (!user.FirstName.IsNullOrEmpty() || !user.LastName.IsNullOrEmpty())
+                    {
+                        await ClaimsManager.AddUserClaimsAsync(user, _userManager, _logger);
                     }
 
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
