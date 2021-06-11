@@ -10,7 +10,7 @@ import { RoleGuard } from './core/role.guard';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
-  { path: 'weather', component: WeatherComponent, canActivate: [RoleGuard] },
+  { path: 'weather', component: WeatherComponent, canActivate: [AuthGuard, RoleGuard] },
   { path: 'userinfo', component: UserinfoComponent, canActivate: [AuthGuard] },
   { path: 'unauthorized', component: UnauthorizedComponent },
   { path: '**', pathMatch: 'full', component: NotFoundComponent },

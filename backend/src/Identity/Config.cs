@@ -1,9 +1,5 @@
-﻿// Copyright (c) Duende Software. All rights reserved.
-// See LICENSE in the project root for license information.
-
-
-using Duende.IdentityServer.Models;
-using IdentityModel;
+﻿using IdentityModel;
+using IdentityServer4.Models;
 using System.Collections.Generic;
 
 namespace Identity
@@ -16,13 +12,12 @@ namespace Identity
                 new IdentityResources.OpenId(),
                 new IdentityResources.Profile(),
                 new IdentityResources.Email(),
-                new IdentityResource("resourcerole", new[] {JwtClaimTypes.Role})
             };
 
         public static IEnumerable<ApiScope> ApiScopes =>
             new ApiScope[]
             {
-                new ApiScope(name: "roles", displayName: "See the roles for the user", userClaims: new[]{JwtClaimTypes.Role}),
+                new ApiScope("role", displayName: "See the roles for the user", userClaims: new[] { JwtClaimTypes.Role })
             };
 
         public static IEnumerable<Client> Clients =>
@@ -43,6 +38,7 @@ namespace Identity
                 {
                     ClientId = "interactive",
                     ClientSecrets = { new Secret("49C1A7E1-0C79-4A89-A3D6-A37998FB86B0".Sha256()) },
+                    AlwaysIncludeUserClaimsInIdToken = true,
 
                     AllowedGrantTypes = GrantTypes.Code,
                     AllowedCorsOrigins = { "http://localhost:4200" },
@@ -54,7 +50,7 @@ namespace Identity
                     RequireClientSecret = false,
 
                     AllowOfflineAccess = true,
-                    AllowedScopes = { "openid", "profile", "email", "roles", "resourcerole" }
+                    AllowedScopes = { "openid", "profile", "email", "role" }
                 },
             };
     }

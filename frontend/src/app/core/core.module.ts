@@ -5,9 +5,10 @@ import { ErrorInterceptor } from './error.interceptor';
 
 import { TokenInterceptor } from './token.interceptor';
 import { NotFoundComponent } from './not-found/not-found.component';
+import { UnauthorizedComponent } from './unauthorized/unauthorized.component';
 
 @NgModule({
-  declarations: [NotFoundComponent],
+  declarations: [NotFoundComponent, UnauthorizedComponent],
   imports: [CommonModule],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },

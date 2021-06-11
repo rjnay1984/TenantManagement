@@ -1,3 +1,5 @@
 <ng-container *ngIf="userData$ | async as userData">
   <pre>{{ userData | json }}</pre>
+  <button mat-raised-button color="primary" (click)="copyToken(token, 'Access')">Copy Access Token</button>
+  <button mat-raised-button color="accent" (click)="copyToken(idToken, 'Id')">Copy Id Token</button>
 </ng-container>

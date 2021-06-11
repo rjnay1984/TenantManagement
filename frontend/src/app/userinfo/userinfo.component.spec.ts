@@ -1,7 +1,9 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { OidcSecurityService } from 'angular-auth-oidc-client';
 import { of } from 'rxjs';
+import { MaterialModule } from '../material.module';
 
 import { UserinfoComponent } from './userinfo.component';
 
@@ -11,9 +13,19 @@ describe('UserinfoComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
+      imports: [HttpClientTestingModule, MaterialModule],
       declarations: [UserinfoComponent],
-      providers: [{ provide: OidcSecurityService, useValue: of('test') }],
+      providers: [
+        {
+          provide: OidcSecurityService,
+          useValue: {
+            userData$: of('sup'),
+            getToken: jest.fn(),
+            getIdToken: jest.fn(),
+          },
+        },
+        MatSnackBar,
+      ],
     }).compileComponents();
   });
 

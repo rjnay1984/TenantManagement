@@ -1,11 +1,5 @@
-﻿// Copyright (c) Duende Software. All rights reserved.
-// See LICENSE in the project root for license information.
-
-
-using System;
-using Duende.IdentityServer;
 using Identity.Data;
-using IdentityServerHost.Models;
+using Identity.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -18,25 +12,25 @@ namespace Identity
 {
     public class Startup
     {
-        public IWebHostEnvironment Environment { get; }
-        public IConfiguration Configuration { get; }
-
-        public Startup(IWebHostEnvironment environment, IConfiguration configuration)
+        public Startup(IConfiguration configuration)
         {
-            Environment = environment;
             Configuration = configuration;
         }
 
+        public IConfiguration Configuration { get; }
+
+        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllersWithViews();
-
             services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection"),
-                    o => o.MigrationsAssembly(typeof(Startup).Assembly.FullName)));
+                options.UseNpgsql(
+                    Configuration.GetConnectionString("DefaultConnection")));
 
-            services.AddIdentity<ApplicationUser, IdentityRole>()
+            services.AddDatabaseDeveloperPageExceptionFilter();
+
+            services.AddIdentity<ApplicationUser, IdentityRole>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<ApplicationDbContext>()
+                .AddDefaultUI()
                 .AddDefaultTokenProviders();
 
             var builder = services.AddIdentityServer(options =>
@@ -46,39 +40,42 @@ namespace Identity
                 options.Events.RaiseFailureEvents = true;
                 options.Events.RaiseSuccessEvents = true;
 
-                // see https://docs.duendesoftware.com/identityserver/v5/fundamentals/resources/
                 options.EmitStaticAudienceClaim = true;
             })
-                .AddInMemoryIdentityResources(Config.IdentityResources)
-                .AddInMemoryApiScopes(Config.ApiScopes)
-                .AddInMemoryClients(Config.Clients)
-                .AddAspNetIdentity<ApplicationUser>();
+            .AddInMemoryIdentityResources(Config.IdentityResources)
+            .AddInMemoryApiScopes(Config.ApiScopes)
+            .AddInMemoryClients(Config.Clients)
+            .AddAspNetIdentity<ApplicationUser>();
 
-            services.AddAuthentication()
-                .AddGoogle(options =>
-                {
-                    options.SignInScheme = IdentityServerConstants.ExternalCookieAuthenticationScheme;
+            builder.AddDeveloperSigningCredential();
 
-                    // register your IdentityServer with Google at https://console.developers.google.com
-                    // enable the Google+ API
-                    // set the redirect URI to https://localhost:5001/signin-google
-                    options.ClientId = "copy client ID from Google here";
-                    options.ClientSecret = "copy client secret from Google here";
-                });
+            services.AddAuthentication();
+
+            services.AddControllers();
+            services.AddRazorPages();
         }
 
-        public void Configure(IApplicationBuilder app)
+        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            if (Environment.IsDevelopment())
+            if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseDatabaseErrorPage();
+                app.UseMigrationsEndPoint();
+            }
+            else
+            {
+                app.UseExceptionHandler("/Error");
+                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+                app.UseHsts();
             }
 
+            app.UseHttpsRedirection();
             app.UseStaticFiles();
 
             app.UseRouting();
             app.UseIdentityServer();
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseCors(builder =>
@@ -90,7 +87,8 @@ namespace Identity
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapDefaultControllerRoute();
+                endpoints.MapControllers();
+                endpoints.MapRazorPages();
             });
         }
     }
