@@ -77,7 +77,7 @@ namespace Identity.Pages.Users
             var result = await _userManager.CreateAsync(user, "Pass123$"); // TODO: Add password generation
             if (!result.Succeeded)
             {
-                foreach(var error in result.Errors)
+                foreach (var error in result.Errors)
                 {
                     ModelState.AddModelError(string.Empty, error.Description);
                 }
@@ -88,7 +88,7 @@ namespace Identity.Pages.Users
             var roleResult = await _userManager.AddToRoleAsync(user, Input.Role);
             if (!roleResult.Succeeded)
             {
-                foreach(var error in roleResult.Errors)
+                foreach (var error in roleResult.Errors)
                 {
                     ModelState.AddModelError(string.Empty, error.Description);
                 }

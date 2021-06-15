@@ -1,6 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Identity.Models;
 using Microsoft.AspNetCore.Authorization;
@@ -23,7 +20,7 @@ namespace Identity.Pages.Users
         public ApplicationUser AppUser { get; set; }
         public string AppUserRole { get; set; }
 
-        public async Task<IActionResult> OnGetAsync(string? id)
+        public async Task<IActionResult> OnGetAsync(string id)
         {
             if (id == null)
             {
