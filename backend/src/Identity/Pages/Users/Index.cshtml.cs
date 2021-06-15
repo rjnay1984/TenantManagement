@@ -52,20 +52,6 @@ namespace Identity.Pages.Users
                                    Role = r.Name
                                }).ToListAsync();
 
-            //var newQuery = await _context.Users.Select(u => new
-            //{
-            //    u.Id,
-            //    u.FirstName,
-            //    u.LastName,
-            //    u.Email
-            //}).Join(_context.UserRoles,
-            //user => _context.Users,
-            //userRole => userRole.UserId,
-            //(user, userRole) => new
-            //{
-            //    Role = userRole.RoleId
-            //}).ToListAsync();
-
             AppUsers = query;
         }
     }

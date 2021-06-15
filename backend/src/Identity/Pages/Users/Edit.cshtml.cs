@@ -1,13 +1,13 @@
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
 using Identity.Data;
 using Identity.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Identity.Pages.Users
 {
@@ -15,7 +15,6 @@ namespace Identity.Pages.Users
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
-        private readonly ApplicationDbContext _context;
 
         public EditModel(
             UserManager<ApplicationUser> userManager,
@@ -23,7 +22,6 @@ namespace Identity.Pages.Users
             ApplicationDbContext context)
         {
             _roleManager = roleManager;
-            _context = context;
             _userManager = userManager;
         }
 
@@ -37,6 +35,7 @@ namespace Identity.Pages.Users
 
         public class InputModel
         {
+            public string Id { get; set; }
             [Display(Name = "First Name")]
             public string FirstName { get; set; }
 
@@ -50,23 +49,106 @@ namespace Identity.Pages.Users
             public string Role { get; set; }
         }
 
+        private async Task LoadAsync(ApplicationUser user)
+        {
+            var roles = await _userManager.GetRolesAsync(user);
+
+            Input = new InputModel
+            {
+                Id = user.Id,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Email = user.Email,
+                Role = roles[0],
+            };
+        }
+
         public async Task<IActionResult> OnGetAsync(string id)
         {
-            var user = await (
-                from u in _context.Users.Where(u => u.Id == id)
-                join au in _context.UserRoles on u.Id equals au.UserId
-                join r in _context.Roles on au.RoleId equals r.Id
-                select new InputModel()
-                {
-                    FirstName = u.FirstName,
-                    LastName = u.LastName,
-                    Email = u.Email,
-                    Role = r.Name,
-                }
-            ).FirstOrDefaultAsync();
+            var user = await _userManager.FindByIdAsync(id);
+            if (user == null)
+            {
+                return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+            }
+
             AppRoles = await _roleManager.Roles.ToListAsync();
-            Input = user;
+            await LoadAsync(user);
             return Page();
+        }
+
+        public async Task<IActionResult> OnPostAsync(string id)
+        {
+            AppRoles = await _roleManager.Roles.ToListAsync(); // TODO: Have to add this here to keep it from blowing up. Not sure why.
+            var user = await _userManager.FindByIdAsync(id);
+
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return Page();
+            }
+
+            if (Input.Email != user.Email)
+            {
+                var emailResult = await _userManager.SetEmailAsync(user, Input.Email);
+                if (!emailResult.Succeeded)
+                {
+                    ModelState.AddModelError(string.Empty, emailResult.Errors.First().Description);
+                    return Page();
+                }
+
+                var userNameResult = await _userManager.SetUserNameAsync(user, Input.Email);
+                if (!userNameResult.Succeeded)
+                {
+                    ModelState.AddModelError(string.Empty, userNameResult.Errors.First().Description);
+                    return Page();
+                }
+            }
+
+            if (Input.FirstName != user.FirstName)
+            {
+                user.FirstName = Input.FirstName;
+            }
+
+            if (Input.LastName != user.LastName)
+            {
+                user.LastName = Input.LastName;
+            }
+
+            var userResult = await _userManager.UpdateAsync(user);
+
+            if (!userResult.Succeeded)
+            {
+                foreach (var error in userResult.Errors)
+                {
+                    ModelState.AddModelError(string.Empty, error.Description);
+                }
+
+                return Page();
+            }
+
+            var currentUserRole = await _userManager.GetRolesAsync(user);
+            if (Input.Role != currentUserRole[0])
+            {
+                var roleResult = await _userManager.RemoveFromRolesAsync(user, currentUserRole);
+                if (!roleResult.Succeeded)
+                {
+                    ModelState.AddModelError(string.Empty, roleResult.Errors.First().Description);
+                    return Page();
+                }
+
+                roleResult = await _userManager.AddToRoleAsync(user, Input.Role);
+                if (!roleResult.Succeeded)
+                {
+                    ModelState.AddModelError(string.Empty, roleResult.Errors.First().Description);
+                }
+            }
+
+            Message = $"{user.Email} updated.";
+            return RedirectToPage("./Index");
         }
     }
 }
