@@ -1,5 +1,6 @@
 using Identity.Helpers;
 using Identity.Models;
+using Identity.ViewModels;
 using IdentityServer4.Extensions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -27,7 +28,7 @@ namespace Identity.Pages.Users
         }
 
         [TempData]
-        public string Message { get; set; }
+        public string StatusMessage { get; set; }
 
         [BindProperty]
         public InputModel Input { get; set; }
@@ -101,7 +102,8 @@ namespace Identity.Pages.Users
                 await ClaimsManager.AddUserClaimsAsync(user, _userManager, _logger);
             }
 
-            Message = $"{Input.Email} created.";
+            StatusMessage = $"{Input.Email} created.";
+
             return RedirectToPage("./Index");
         }
     }

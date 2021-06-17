@@ -1,9 +1,14 @@
 using Identity.Data;
+using Identity.Helpers;
 using Identity.Models;
+using Identity.ViewModels;
+using IdentityServer4.Extensions;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -11,22 +16,25 @@ using System.Threading.Tasks;
 
 namespace Identity.Pages.Users
 {
+    [Authorize(Roles = "Admin")]
     public class EditModel : PageModel
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly ILogger<EditModel> _logger;
 
         public EditModel(
             UserManager<ApplicationUser> userManager,
             RoleManager<IdentityRole> roleManager,
-            ApplicationDbContext context)
+            ILogger<EditModel> logger)
         {
             _roleManager = roleManager;
+            _logger = logger;
             _userManager = userManager;
         }
 
         [TempData]
-        public string Message { get; set; }
+        public string StatusMessage { get; set; }
 
         [BindProperty]
         public InputModel Input { get; set; }
@@ -118,6 +126,9 @@ namespace Identity.Pages.Users
                 user.LastName = Input.LastName;
             }
 
+            var currentClaims = await _userManager.GetClaimsAsync(user);
+            await _userManager.RemoveClaimsAsync(user, currentClaims);
+
             var userResult = await _userManager.UpdateAsync(user);
 
             if (!userResult.Succeeded)
@@ -128,6 +139,11 @@ namespace Identity.Pages.Users
                 }
 
                 return Page();
+            }
+
+            if (!user.FirstName.IsNullOrEmpty() || !user.LastName.IsNullOrEmpty())
+            {
+                await ClaimsManager.AddUserClaimsAsync(user, _userManager, _logger);
             }
 
             var currentUserRole = await _userManager.GetRolesAsync(user);
@@ -147,7 +163,8 @@ namespace Identity.Pages.Users
                 }
             }
 
-            Message = $"{user.Email} updated.";
+            StatusMessage = $"{user.Email} updated.";
+
             return RedirectToPage("./Index");
         }
     }

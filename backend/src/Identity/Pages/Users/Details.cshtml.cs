@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 using Identity.Models;
 using Microsoft.AspNetCore.Authorization;
@@ -17,8 +18,21 @@ namespace Identity.Pages.Users
             _userManager = userManager;
         }
 
-        public ApplicationUser AppUser { get; set; }
-        public string AppUserRole { get; set; }
+        public UserViewModel AppUser { get; set; }
+
+        public class UserViewModel
+        {
+            [Display(Name = "First Name")]
+            public string FirstName { get; set; }
+
+            [Display(Name = "Last Name")]
+            public string LastName { get; set; }
+
+            [Display(Name = "Email Address")]
+            public string Email { get; set; }
+
+            public string Role { get; set; }
+        }
 
         public async Task<IActionResult> OnGetAsync(string id)
         {
@@ -27,16 +41,24 @@ namespace Identity.Pages.Users
                 return NotFound();
             }
 
-            AppUser = await _userManager.FindByIdAsync(id);
+            var user = await _userManager.FindByIdAsync(id);
 
-            if (AppUser == null)
+            if (user == null)
             {
                 return NotFound();
             }
 
-            var roles = await _userManager.GetRolesAsync(AppUser);
+            var roles = await _userManager.GetRolesAsync(user);
 
-            AppUserRole = roles[0];
+            var userResult = new UserViewModel()
+            {
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Email = user.Email,
+                Role = roles[0]
+            };
+
+            AppUser = userResult;
 
             return Page();
         }
