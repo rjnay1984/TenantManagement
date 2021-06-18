@@ -8,26 +8,26 @@
 
 <div class="d-flex justify-content-between align-items-center">
     <h1>Users</h1>
-    <a asp-page="./Create">Create New User</a>
+    <a asp-page="./Create" class="btn btn-primary">Create New User</a>
 </div>
 
 @if (Model.AppUsers.Any())
 {
     <table class="table">
-        <thead>
-            <tr>
-                <th scope="col">@Html.DisplayNameFor(model => model.AppUsers[0].Email)</th>
-                <th scope="col">@Html.DisplayNameFor(model => model.AppUsers[0].FirstName)</th>
-                <th scope="col">@Html.DisplayNameFor(model => model.AppUsers[0].LastName)</th>
-                <th scope="col">@Html.DisplayNameFor(model => model.AppUsers[0].Role)</th>
-                <th scope="col">Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var user in Model.AppUsers)
+    <thead>
+        <tr>
+            <th scope="col">@Html.DisplayNameFor(model => model.AppUsers[0].Email)</th>
+            <th scope="col">@Html.DisplayNameFor(model => model.AppUsers[0].FirstName)</th>
+            <th scope="col">@Html.DisplayNameFor(model => model.AppUsers[0].LastName)</th>
+            <th scope="col">@Html.DisplayNameFor(model => model.AppUsers[0].Role)</th>
+            <th scope="col">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var user in Model.AppUsers)
             {
                 <tr>
-                    <td>@Html.DisplayFor(modelItem => user.Email)</td>
+                    <td>@Html.DisplayTextFor(modelItem => user.Email)</td>
                     <td>@Html.DisplayFor(modelItem => user.FirstName)</td>
                     <td>@Html.DisplayFor(modelItem => user.LastName)</td>
                     <td>@Html.DisplayFor(modelItem => user.Role.Name)</td>
