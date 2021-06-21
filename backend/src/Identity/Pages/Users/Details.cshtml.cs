@@ -1,6 +1,8 @@
 using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
+using Identity.Interfaces;
 using Identity.Models;
+using Identity.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -11,28 +13,14 @@ namespace Identity.Pages.Users
     [Authorize(Roles = "Admin")]
     public class DetailsModel : PageModel
     {
-        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly IUserRepository _userRepository;
 
-        public DetailsModel(UserManager<ApplicationUser> userManager)
+        public DetailsModel(IUserRepository userRepository)
         {
-            _userManager = userManager;
+            _userRepository = userRepository;
         }
 
-        public UserViewModel AppUser { get; set; }
-
-        public class UserViewModel
-        {
-            [Display(Name = "First Name")]
-            public string FirstName { get; set; }
-
-            [Display(Name = "Last Name")]
-            public string LastName { get; set; }
-
-            [Display(Name = "Email Address")]
-            public string Email { get; set; }
-
-            public string Role { get; set; }
-        }
+        public ApplicationUserViewModel AppUser { get; set; }
 
         public async Task<IActionResult> OnGetAsync(string id)
         {
@@ -41,21 +29,22 @@ namespace Identity.Pages.Users
                 return NotFound();
             }
 
-            var user = await _userManager.FindByIdAsync(id);
+            var user = await _userRepository.GetUserAsync(id);
 
             if (user == null)
             {
                 return NotFound();
             }
 
-            var roles = await _userManager.GetRolesAsync(user);
+            var role = await _userRepository.GetUserRoleAsync(user);
 
-            var userResult = new UserViewModel()
+            var userResult = new ApplicationUserViewModel()
             {
+                Id = user.Id,
                 FirstName = user.FirstName,
                 LastName = user.LastName,
                 Email = user.Email,
-                Role = roles[0]
+                Role = role
             };
 
             AppUser = userResult;

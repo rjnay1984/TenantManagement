@@ -30,7 +30,7 @@
                     <td>@Html.DisplayTextFor(modelItem => user.Email)</td>
                     <td>@Html.DisplayFor(modelItem => user.FirstName)</td>
                     <td>@Html.DisplayFor(modelItem => user.LastName)</td>
-                    <td>@Html.DisplayFor(modelItem => user.Role.Name)</td>
+                    <td>@Html.DisplayFor(modelItem => user.Role)</td>
                     <td>
                         <a asp-page="./Details" asp-route-id="@user.Id">Details</a> |
                         <a asp-page="./Edit" asp-route-id="@user.Id">Edit</a> |

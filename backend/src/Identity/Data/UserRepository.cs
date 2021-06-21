@@ -1,6 +1,7 @@
 ﻿using Identity.Interfaces;
 using Identity.Models;
 using Identity.ViewModels;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -12,10 +13,12 @@ namespace Identity.Data
     public class UserRepository : IUserRepository
     {
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public UserRepository(ApplicationDbContext context)
+        public UserRepository(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         public async Task<IList<ApplicationUserViewModel>> GetUsersAsync()
@@ -30,10 +33,24 @@ namespace Identity.Data
                     Email = u.Email,
                     FirstName = u.FirstName,
                     LastName = u.LastName,
-                    Role = r
+                    Role = r.Name
                 }).ToListAsync();
 
             return query;
+        }
+
+        public async Task<ApplicationUser> GetUserAsync(string id)
+        {
+            var user = await _userManager.FindByIdAsync(id);
+
+            return user;
+        }
+
+        public async Task<string> GetUserRoleAsync(ApplicationUser user)
+        {
+            var role = await _userManager.GetRolesAsync(user);
+
+            return role[0];
         }
     }
 }
