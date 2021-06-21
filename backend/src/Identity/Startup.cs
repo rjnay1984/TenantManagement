@@ -1,4 +1,5 @@
 using Identity.Data;
+using Identity.Interfaces;
 using Identity.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -32,6 +33,8 @@ namespace Identity
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultUI()
                 .AddDefaultTokenProviders();
+
+            services.AddScoped<IUserRepository, UserRepository>();
 
             var builder = services.AddIdentityServer(options =>
             {
