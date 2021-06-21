@@ -3,6 +3,7 @@ using Identity.Models;
 using Identity.Pages.Users;
 using Identity.ViewModels;
 using Moq;
+using System.Linq;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -15,11 +16,11 @@ namespace Identity.Tests.UnitTests.Users
         {
             // Arrange
             var mockRepo = new Mock<IUserRepository>();
-            var expectedUser = GetSeededUser();
-            var expectedRole = GetSeededRole();
+            var expectedUser = MockUserRepo.GetTestAppUser();
+            var expectedRole = MockUserRepo.GetUserRole();
             var expectedUserViewModel = new ApplicationUserViewModel(expectedUser, expectedRole);
-            mockRepo.Setup(repo => repo.GetUserAsync(expectedUser.Id)).ReturnsAsync(expectedUser);
-            mockRepo.Setup(repo => repo.GetUserRoleAsync(expectedUser)).ReturnsAsync(expectedRole);
+            mockRepo.Setup(repo => repo.GetUserAsync(expectedUser.Id).Result).Returns(expectedUser);
+            mockRepo.Setup(repo => repo.GetUserRoleAsync(expectedUser).Result).Returns(expectedRole);
             var pageModel = new DetailsModel(mockRepo.Object);
 
             // Act
@@ -33,20 +34,5 @@ namespace Identity.Tests.UnitTests.Users
             Assert.Equal(expectedUserViewModel.LastName, actualUser.LastName);
             Assert.Equal(expectedUserViewModel.Role, actualUser.Role);
         }
-
-        private ApplicationUser GetSeededUser()
-        {
-            return new ApplicationUser()
-            {
-                Id = "1",
-                FirstName = "User",
-                LastName = "One",
-                Email = "userone@email.com",
-                EmailConfirmed = true,
-                UserName = "userone@email.com"
-            };
-        }
-
-        private string GetSeededRole() => "Tenant";
     }
 }
