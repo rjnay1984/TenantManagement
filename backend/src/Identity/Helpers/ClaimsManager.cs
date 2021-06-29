@@ -10,8 +10,10 @@ using System.Threading.Tasks;
 
 namespace Identity.Helpers
 {
+
     public static class ClaimsManager
     {
+        // TODO: Remove this file and incorporate the userrepo into account/manage and register
         public static async Task AddUserClaimsAsync(ApplicationUser user, UserManager<ApplicationUser> userManager, ILogger logger)
         {
             IdentityResult result;

@@ -1,66 +1,40 @@
-using Identity.Helpers;
+using Identity.Interfaces;
 using Identity.Models;
 using Identity.ViewModels;
 using IdentityServer4.Extensions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 
 namespace Identity.Pages.Users
 {
     public class CreateModel : PageModel
     {
-        private readonly UserManager<ApplicationUser> _userManager;
-        private readonly RoleManager<IdentityRole> _roleManager;
-        private readonly ILogger<CreateModel> _logger;
+        private readonly IUserRepository _userRepository;
 
-        public CreateModel(UserManager<ApplicationUser> userManager,
-            RoleManager<IdentityRole> roleManager, ILogger<CreateModel> logger)
+        public CreateModel(IUserRepository userRepository)
         {
-            _userManager = userManager;
-            _roleManager = roleManager;
-            _logger = logger;
+            _userRepository = userRepository;
         }
 
         [TempData]
         public string StatusMessage { get; set; }
 
         [BindProperty]
-        public InputModel Input { get; set; }
+        public ApplicationUserViewModel Input { get; set; }
 
         public IList<IdentityRole> AppRoles { get; set; }
 
-        public class InputModel
-        {
-            [DataType(DataType.Text)]
-            [Display(Name = "First Name")]
-            public string FirstName { get; set; }
-
-            [DataType(DataType.Text)]
-            [Display(Name = "Last Name")]
-            public string LastName { get; set; }
-
-            [Required]
-            [EmailAddress]
-            [Display(Name = "Email")]
-            public string Email { get; set; }
-
-            public string Role { get; set; }
-        }
-
         public async Task OnGetAsync()
         {
-            AppRoles = await _roleManager.Roles.ToListAsync();
+            AppRoles = await _userRepository.GetRolesAsync();
         }
 
         public async Task<IActionResult> OnPostAsync()
         {
-            AppRoles = await _roleManager.Roles.ToListAsync();
+            AppRoles = await _userRepository.GetRolesAsync();
             if (!ModelState.IsValid)
             {
                 return Page();
@@ -75,7 +49,9 @@ namespace Identity.Pages.Users
                 EmailConfirmed = true
             };
 
-            var result = await _userManager.CreateAsync(user, "Pass123$"); // TODO: Add password generation
+            // Create the user
+            IdentityResult result;
+            result = await _userRepository.CreateUserAsync(user); // TODO: Add password generation
             if (!result.Succeeded)
             {
                 foreach (var error in result.Errors)
@@ -86,10 +62,11 @@ namespace Identity.Pages.Users
                 return Page();
             }
 
-            var roleResult = await _userManager.AddToRoleAsync(user, Input.Role);
-            if (!roleResult.Succeeded)
+            // Add the user to role
+            result = await _userRepository.AddToRoleAsync(user, Input.Role);
+            if (!result.Succeeded)
             {
-                foreach (var error in roleResult.Errors)
+                foreach (var error in result.Errors)
                 {
                     ModelState.AddModelError(string.Empty, error.Description);
                 }
@@ -97,9 +74,19 @@ namespace Identity.Pages.Users
                 return Page();
             }
 
+            // Add claims to the user for the frontend
             if (!user.FirstName.IsNullOrEmpty() || !user.LastName.IsNullOrEmpty())
             {
-                await ClaimsManager.AddUserClaimsAsync(user, _userManager, _logger);
+                result = await _userRepository.AddUserClaimsAsync(user);
+                if (!result.Succeeded)
+                {
+                    foreach (var error in result.Errors)
+                    {
+                        ModelState.AddModelError(error.Code, error.Description);
+                    }
+
+                    return Page();
+                }
             }
 
             StatusMessage = $"{Input.Email} created.";

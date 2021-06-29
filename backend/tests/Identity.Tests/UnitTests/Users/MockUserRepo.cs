@@ -1,10 +1,8 @@
 ﻿using Identity.Models;
 using Identity.ViewModels;
-using System;
+using Microsoft.AspNetCore.Identity;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Identity.Tests.UnitTests.Users
 {
@@ -38,6 +36,16 @@ namespace Identity.Tests.UnitTests.Users
                     LastName = "Doe",
                     Role = "Tenant"
                 }
+            };
+        }
+
+        public static IList<IdentityRole> GetTestRoles()
+        {
+            return new List<IdentityRole>
+            {
+                new IdentityRole() { Id = "1", Name = "Admin" },
+                new IdentityRole() { Id = "2", Name = "Landlord" },
+                new IdentityRole() { Id = "3", Name = "Tenant" }
             };
         }
 
