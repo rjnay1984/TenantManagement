@@ -1,3 +1,4 @@
+using Identity.Interfaces;
 using Identity.Models;
 using Identity.ViewModels;
 using Microsoft.AspNetCore.Identity;
@@ -10,11 +11,11 @@ namespace Identity.Pages.Users
 {
     public class DeleteModel : PageModel
     {
-        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly IUserRepository _userRepository;
 
-        public DeleteModel(UserManager<ApplicationUser> userManager)
+        public DeleteModel(IUserRepository userRepository)
         {
-            _userManager = userManager;
+            _userRepository = userRepository;
         }
 
         [TempData]
@@ -27,14 +28,14 @@ namespace Identity.Pages.Users
 
         public async Task<IActionResult> OnGetAsync(string id)
         {
-            AppUser = await _userManager.FindByIdAsync(id);
+            AppUser = await _userRepository.GetUserAsync(id);
             if (AppUser == null)
             {
                 return NotFound();
             }
 
-            var roles = await _userManager.GetRolesAsync(AppUser);
-            UserRole = roles[0];
+            var role = await _userRepository.GetUserRoleAsync(AppUser);
+            UserRole = role;
 
 
             return Page();
@@ -47,16 +48,16 @@ namespace Identity.Pages.Users
                 return NotFound();
             }
 
-            AppUser = await _userManager.FindByIdAsync(id);
+            AppUser = await _userRepository.GetUserAsync(id);
             if (AppUser == null)
             {
                 return NotFound();
             }
 
-            var roles = await _userManager.GetRolesAsync(AppUser);
-            UserRole = roles[0];
+            var role = await _userRepository.GetUserRoleAsync(AppUser);
+            UserRole = role;
 
-            var result = await _userManager.DeleteAsync(AppUser);
+            var result = await _userRepository.DeleteUserAsync(AppUser);
             if (!result.Succeeded)
             {
                 StatusMessage = $"Error: { result.Errors.First().Description }";

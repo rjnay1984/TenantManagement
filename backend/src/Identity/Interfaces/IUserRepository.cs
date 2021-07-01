@@ -22,5 +22,6 @@ namespace Identity.Interfaces
         Task<IdentityResult> SetEmailAsync(ApplicationUser user, string email);
         Task<IdentityResult> SetUserNameAsync(ApplicationUser user, string username);
         Task<IdentityResult> UpdateUserAsync(ApplicationUser user);
+        Task<IdentityResult> DeleteUserAsync(ApplicationUser user);
     }
 }
