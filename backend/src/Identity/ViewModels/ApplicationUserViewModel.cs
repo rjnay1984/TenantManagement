@@ -21,6 +21,7 @@ namespace Identity.ViewModels
         public string Id { get; set; }
 
         [EmailAddress]
+        [Required]
         [Display(Name = "Email Address")]
         public string Email { get; set; }
 

@@ -75,6 +75,21 @@ namespace Identity.Data
             return await _userManager.AddToRoleAsync(user, null);
         }
 
+        public async Task<IdentityResult> RemoveFromRoleAsync(ApplicationUser user, string role)
+        {
+            return await _userManager.RemoveFromRoleAsync(user, role);
+        }
+
+        public async Task<IList<Claim>> GetUserClaimsAsync(ApplicationUser user)
+        {
+            return await _userManager.GetClaimsAsync(user);
+        }
+
+        public async Task<IdentityResult> RemoveUserClaimsAsync(ApplicationUser user, IEnumerable<Claim> claims)
+        {
+            return await _userManager.RemoveClaimsAsync(user, claims);
+        }
+
         public async Task<IdentityResult> AddUserClaimsAsync(ApplicationUser user)
         {
             var claims = new List<Claim>();
@@ -94,6 +109,21 @@ namespace Identity.Data
             }
 
             return await _userManager.AddClaimsAsync(user, claims);
+        }
+
+        public async Task<IdentityResult> SetEmailAsync(ApplicationUser user, string email)
+        {
+            return await _userManager.SetEmailAsync(user, email);
+        }
+
+        public async Task<IdentityResult> SetUserNameAsync(ApplicationUser user, string username)
+        {
+            return await _userManager.SetUserNameAsync(user, username);
+        }
+
+        public async Task<IdentityResult> UpdateUserAsync(ApplicationUser user)
+        {
+            return await _userManager.UpdateAsync(user);
         }
     }
 }
