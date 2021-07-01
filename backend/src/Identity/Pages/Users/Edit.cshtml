@@ -1,0 +1,37 @@
+@page "{id}"
+@model Identity.Pages.Users.EditModel
+@{
+    ViewData["title"] = "Edit User";
+}
+
+<h1>Edit</h1>
+<hr>
+<form asp-route-returnUrl="./Index" method="post">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="form-group">
+        <label asp-for="Input.Email"></label>
+        <input asp-for="Input.Email" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="Input.FirstName"></label>
+        <input asp-for="Input.FirstName" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="Input.LastName"></label>
+        <input asp-for="Input.LastName" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="Input.Role"></label>
+        <select asp-for="Input.Role" class="form-control">
+            @foreach (var role in Model.AppRoles)
+            {
+                <option value="@role.Name">@role.Name</option>
+            }
+        </select>
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
