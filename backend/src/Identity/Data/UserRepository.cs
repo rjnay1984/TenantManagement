@@ -1,5 +1,5 @@
-﻿using Identity.Interfaces;
-using Identity.Models;
+﻿using Core.Entities;
+using Identity.Interfaces;
 using Identity.ViewModels;
 using IdentityModel;
 using IdentityServer4.Extensions;

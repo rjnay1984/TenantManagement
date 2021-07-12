@@ -1,12 +1,4 @@
-﻿using System;
-using Identity.Data;
-using Identity.Models;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.AspNetCore.Hosting;
 
 [assembly: HostingStartup(typeof(Identity.Areas.Identity.IdentityHostingStartup))]
 namespace Identity.Areas.Identity

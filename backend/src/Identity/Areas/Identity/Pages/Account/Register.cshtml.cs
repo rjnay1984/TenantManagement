@@ -1,5 +1,5 @@
-﻿using Identity.Helpers;
-using Identity.Models;
+﻿using Core.Entities;
+using Identity.Helpers;
 using IdentityServer4.Extensions;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;

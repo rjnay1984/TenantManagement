@@ -1,5 +1,5 @@
+using Core.Entities;
 using Identity.Interfaces;
-using Identity.Models;
 using Identity.ViewModels;
 using IdentityServer4.Extensions;
 using Microsoft.AspNetCore.Identity;

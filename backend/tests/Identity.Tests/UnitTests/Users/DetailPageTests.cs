@@ -1,9 +1,7 @@
 ﻿using Identity.Interfaces;
-using Identity.Models;
 using Identity.Pages.Users;
 using Identity.ViewModels;
 using Moq;
-using System.Linq;
 using System.Threading.Tasks;
 using Xunit;
 

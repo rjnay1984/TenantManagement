@@ -1,7 +1,5 @@
+using Core.Entities;
 using Identity.Interfaces;
-using Identity.Models;
-using Identity.ViewModels;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Linq;

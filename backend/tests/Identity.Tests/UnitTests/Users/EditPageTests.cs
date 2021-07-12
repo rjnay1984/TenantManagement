@@ -1,15 +1,15 @@
-﻿using Identity.Interfaces;
+﻿using Core.Entities;
+using Identity.Interfaces;
+using Identity.Pages.Users;
+using IdentityModel;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using Moq;
+using System.Collections.Generic;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Xunit;
-using Identity.Pages.Users;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.AspNetCore.Mvc;
-using Identity.Models;
-using Microsoft.AspNetCore.Identity;
-using System.Security.Claims;
-using System.Collections.Generic;
-using IdentityModel;
 
 namespace Identity.Tests.UnitTests.Users
 {

@@ -1,4 +1,4 @@
-﻿using Identity.Models;
+﻿using Core.Entities;
 using System.ComponentModel.DataAnnotations;
 
 namespace Identity.ViewModels
