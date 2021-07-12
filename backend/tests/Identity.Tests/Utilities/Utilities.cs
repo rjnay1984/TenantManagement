@@ -1,4 +1,4 @@
-﻿using Identity.Data;
+﻿using Core.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -7,7 +7,7 @@ namespace Identity.Tests.Utilities
     public static class Utilities
     {
         #region snippet1
-        public static DbContextOptions<ApplicationDbContext> TestDbContextOptions()
+        public static DbContextOptions<IdentityContext> TestDbContextOptions()
         {
             // Create a new service provider to create a new in-memory database.
             var serviceProvider = new ServiceCollection()
@@ -17,7 +17,7 @@ namespace Identity.Tests.Utilities
             // Create a new options instance using an in-memory database and 
             // IServiceProvider that the context should resolve all of its 
             // services from.
-            var builder = new DbContextOptionsBuilder<ApplicationDbContext>()
+            var builder = new DbContextOptionsBuilder<IdentityContext>()
                 .UseInMemoryDatabase("InMemoryDb")
                 .UseInternalServiceProvider(serviceProvider);
 

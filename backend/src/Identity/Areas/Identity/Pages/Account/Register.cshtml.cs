@@ -1,6 +1,5 @@
 ﻿using Core.Entities;
 using Identity.Helpers;
-using IdentityServer4.Extensions;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -104,7 +103,7 @@ namespace Identity.Areas.Identity.Pages.Account
                     }
 
                     // Adding the default user claims.
-                    if (!user.FirstName.IsNullOrEmpty() || !user.LastName.IsNullOrEmpty())
+                    if (!string.IsNullOrEmpty(user.FirstName) || !string.IsNullOrEmpty(user.LastName))
                     {
                         await ClaimsManager.AddUserClaimsAsync(user, _userManager, _logger);
                     }

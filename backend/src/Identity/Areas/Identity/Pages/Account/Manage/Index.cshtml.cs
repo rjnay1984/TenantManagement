@@ -1,6 +1,5 @@
 ﻿using Core.Entities;
 using Identity.Helpers;
-using IdentityServer4.Extensions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -122,7 +121,7 @@ namespace Identity.Areas.Identity.Pages.Account.Manage
 
             await _userManager.UpdateAsync(user);
 
-            if (!user.FirstName.IsNullOrEmpty() || !user.LastName.IsNullOrEmpty())
+            if (!string.IsNullOrEmpty(user.FirstName) || !string.IsNullOrEmpty(user.LastName))
             {
                 await ClaimsManager.AddUserClaimsAsync(user, _userManager, _logger);
             }

@@ -1,4 +1,5 @@
-﻿using Core.Entities;
+﻿using Core.Data;
+using Core.Entities;
 using Identity.Interfaces;
 using Identity.ViewModels;
 using IdentityModel;
@@ -14,12 +15,12 @@ namespace Identity.Data
 {
     public class UserRepository : IUserRepository
     {
-        private readonly ApplicationDbContext _context;
+        private readonly IdentityContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
 
         public UserRepository(
-            ApplicationDbContext context, 
+            IdentityContext context, 
             UserManager<ApplicationUser> userManager,
             RoleManager<IdentityRole> roleManager)
         {

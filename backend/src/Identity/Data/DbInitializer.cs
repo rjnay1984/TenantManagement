@@ -1,4 +1,5 @@
 ﻿using Core.Entities;
+using Core.Data;
 using IdentityModel;
 using Microsoft.AspNetCore.Identity;
 using System;
@@ -9,7 +10,7 @@ namespace Identity.Data
 {
     public static class DbInitializer
     {
-        public static void Initialize(ApplicationDbContext context, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager)
+        public static void Initialize(IdentityContext context, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager)
         {
             var adminRole = roleManager.FindByNameAsync("Admin").Result;
             if (adminRole == null)
