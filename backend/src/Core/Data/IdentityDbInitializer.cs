@@ -1,14 +1,13 @@
 ﻿using Core.Entities;
-using Core.Data;
 using IdentityModel;
 using Microsoft.AspNetCore.Identity;
 using System;
 using System.Linq;
 using System.Security.Claims;
 
-namespace Identity.Data
+namespace Core.Data
 {
-    public static class DbInitializer
+    public static class IdentityDbInitializer
     {
         public static void Initialize(IdentityContext context, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager)
         {

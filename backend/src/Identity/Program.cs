@@ -33,7 +33,7 @@ namespace Identity
                     var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
                     context.Database.EnsureDeleted();
                     context.Database.EnsureCreated();
-                    DbInitializer.Initialize(context, userManager, roleManager);
+                    IdentityDbInitializer.Initialize(context, userManager, roleManager);
                 }
                 catch (Exception ex)
                 {
