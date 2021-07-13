@@ -1,6 +1,5 @@
-﻿using Identity.Helpers;
-using Identity.Models;
-using IdentityServer4.Extensions;
+﻿using Core.Entities;
+using Core.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -14,15 +13,18 @@ namespace Identity.Areas.Identity.Pages.Account.Manage
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly IUserRepository _userRepository;
         private readonly ILogger<IndexModel> _logger;
 
         public IndexModel(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
+            IUserRepository userRepository,
             ILogger<IndexModel> logger)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _userRepository = userRepository;
             _logger = logger;
         }
 
@@ -122,9 +124,17 @@ namespace Identity.Areas.Identity.Pages.Account.Manage
 
             await _userManager.UpdateAsync(user);
 
-            if (!user.FirstName.IsNullOrEmpty() || !user.LastName.IsNullOrEmpty())
+            if (!string.IsNullOrEmpty(user.FirstName) || !string.IsNullOrEmpty(user.LastName))
             {
-                await ClaimsManager.AddUserClaimsAsync(user, _userManager, _logger);
+                var addClaimsResult = await _userRepository.AddUserClaimsAsync(user);
+                if (!addClaimsResult.Succeeded)
+                {
+                    foreach(var error in addClaimsResult.Errors)
+                    {
+                        ModelState.AddModelError(error.Code, error.Description);
+                    }
+                    return Page();
+                }
             }
 
             await _signInManager.RefreshSignInAsync(user);

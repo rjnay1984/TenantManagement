@@ -1,5 +1,6 @@
+using Core.Data;
+using Core.Entities;
 using Identity.Data;
-using Identity.Models;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
@@ -27,11 +28,12 @@ namespace Identity
                 var services = scope.ServiceProvider;
                 try
                 {
-                    var context = services.GetRequiredService<ApplicationDbContext>();
+                    var context = services.GetRequiredService<IdentityContext>();
                     var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
                     var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
+                    context.Database.EnsureDeleted();
                     context.Database.EnsureCreated();
-                    DbInitializer.Initialize(context, userManager, roleManager);
+                    IdentityDbInitializer.Initialize(context, userManager, roleManager);
                 }
                 catch (Exception ex)
                 {

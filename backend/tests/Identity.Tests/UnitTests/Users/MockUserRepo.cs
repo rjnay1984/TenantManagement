@@ -1,5 +1,5 @@
-﻿using Identity.Models;
-using Identity.ViewModels;
+﻿using Core.DTOs;
+using Core.Entities;
 using Microsoft.AspNetCore.Identity;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,11 +8,11 @@ namespace Identity.Tests.UnitTests.Users
 {
     public static class MockUserRepo
     {
-        public static IList<ApplicationUserViewModel> TestUsers()
+        public static IReadOnlyList<ApplicationUserDto> TestUsers()
         {
-            return new List<ApplicationUserViewModel>()
+            return new List<ApplicationUserDto>()
             {
-                new ApplicationUserViewModel()
+                new ApplicationUserDto()
                 {
                     Id = "1",
                     Email = "alicesmith@email.com",
@@ -20,7 +20,7 @@ namespace Identity.Tests.UnitTests.Users
                     LastName = "Smith",
                     Role = "Admin"
                 },
-                new ApplicationUserViewModel()
+                new ApplicationUserDto()
                 {
                     Id = "2",
                     Email = "bobsmith@email.com",
@@ -28,7 +28,7 @@ namespace Identity.Tests.UnitTests.Users
                     LastName = "Smith",
                     Role = "Landlord"
                 },
-                new ApplicationUserViewModel()
+                new ApplicationUserDto()
                 {
                     Id = "3",
                     Email = "johndoe@email.com",

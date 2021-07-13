@@ -1,15 +1,15 @@
-﻿using Identity.Models;
-using Identity.ViewModels;
+﻿using Core.DTOs;
+using Core.Entities;
 using Microsoft.AspNetCore.Identity;
 using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
-namespace Identity.Interfaces
+namespace Core.Interfaces
 {
     public interface IUserRepository
     {
-        Task<IList<ApplicationUserViewModel>> GetUsersAsync();
+        Task<IReadOnlyList<ApplicationUserDto>> GetUsersAsync();
         Task<ApplicationUser> GetUserAsync(string id);
         Task<string> GetUserRoleAsync(ApplicationUser user);
         Task<IList<IdentityRole>> GetRolesAsync();

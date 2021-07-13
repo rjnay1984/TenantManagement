@@ -1,6 +1,6 @@
-using Identity.Interfaces;
-using Identity.Models;
-using Identity.ViewModels;
+using Core.DTOs;
+using Core.Entities;
+using Core.Interfaces;
 using IdentityServer4.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -26,7 +26,7 @@ namespace Identity.Pages.Users
         public string StatusMessage { get; set; }
 
         [BindProperty]
-        public ApplicationUserViewModel Input { get; set; }
+        public ApplicationUserDto Input { get; set; }
 
         public IList<IdentityRole> AppRoles { get; set; }
 
@@ -34,7 +34,7 @@ namespace Identity.Pages.Users
         {
             var role = await _userRepository.GetUserRoleAsync(user);
 
-            Input = new ApplicationUserViewModel()
+            Input = new ApplicationUserDto()
             {
                 Id = user.Id,
                 FirstName = user.FirstName,
