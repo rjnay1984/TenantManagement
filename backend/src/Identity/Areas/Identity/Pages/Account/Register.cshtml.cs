@@ -1,5 +1,5 @@
 ﻿using Core.Entities;
-using Identity.Helpers;
+using Core.Interfaces;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -23,17 +23,20 @@ namespace Identity.Areas.Identity.Pages.Account
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly ILogger<RegisterModel> _logger;
+        private readonly IUserRepository _userRepository;
         private readonly IEmailSender _emailSender;
 
         public RegisterModel(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             ILogger<RegisterModel> logger,
+            IUserRepository userRepository,
             IEmailSender emailSender)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
+            _userRepository = userRepository;
             _emailSender = emailSender;
         }
 
@@ -105,7 +108,15 @@ namespace Identity.Areas.Identity.Pages.Account
                     // Adding the default user claims.
                     if (!string.IsNullOrEmpty(user.FirstName) || !string.IsNullOrEmpty(user.LastName))
                     {
-                        await ClaimsManager.AddUserClaimsAsync(user, _userManager, _logger);
+                        var claimsResult = await _userRepository.AddUserClaimsAsync(user);
+                        if (!claimsResult.Succeeded)
+                        {
+                            foreach(var error in claimsResult.Errors)
+                            {
+                                ModelState.AddModelError(error.Code, error.Description);
+                                return Page();
+                            }
+                        }
                     }
 
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
