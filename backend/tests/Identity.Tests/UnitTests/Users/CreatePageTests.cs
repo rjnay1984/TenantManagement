@@ -1,7 +1,7 @@
-﻿using Core.Entities;
-using Identity.Interfaces;
+﻿using Core.DTOs;
+using Core.Entities;
+using Core.Interfaces;
 using Identity.Pages.Users;
-using Identity.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -41,7 +41,7 @@ namespace Identity.Tests.UnitTests.Users
             mockRepo.Setup(r => r.AddUserClaimsAsync(It.IsAny<ApplicationUser>()).Result).Returns(IdentityResult.Success);
 
             var pageModel = new CreateModel(mockRepo.Object);
-            pageModel.Input = new ApplicationUserViewModel()
+            pageModel.Input = new ApplicationUserDto()
             {
                 FirstName = "Test",
                 LastName = "User",
@@ -70,7 +70,7 @@ namespace Identity.Tests.UnitTests.Users
             mockRepo.Setup(r => r.GetRolesAsync().Result).Returns(MockUserRepo.GetTestRoles);
             mockRepo.Setup(r => r.CreateUserAsync(It.IsAny<ApplicationUser>()).Result).Returns(IdentityResult.Failed(errors));
             var pageModel = new CreateModel(mockRepo.Object);
-            pageModel.Input = new ApplicationUserViewModel()
+            pageModel.Input = new ApplicationUserDto()
             {
                 Role = "Tenant"
             };
@@ -97,7 +97,7 @@ namespace Identity.Tests.UnitTests.Users
             mockRepo.Setup(r => r.CreateUserAsync(It.IsAny<ApplicationUser>()).Result).Returns(IdentityResult.Success);
             mockRepo.Setup(r => r.AddToRoleAsync(It.IsAny<ApplicationUser>(), It.IsAny<string>()).Result).Returns(IdentityResult.Failed(errors));
             var pageModel = new CreateModel(mockRepo.Object);
-            pageModel.Input = new ApplicationUserViewModel()
+            pageModel.Input = new ApplicationUserDto()
             {
                 Email = "testuser@email.com",
                 Role = "Tenant"
@@ -127,7 +127,7 @@ namespace Identity.Tests.UnitTests.Users
             mockRepo.Setup(r => r.AddToRoleAsync(It.IsAny<ApplicationUser>(), It.IsAny<string>()).Result).Returns(IdentityResult.Success);
             mockRepo.Setup(r => r.AddUserClaimsAsync(It.IsAny<ApplicationUser>()).Result).Returns(IdentityResult.Failed(errors));
             var pageModel = new CreateModel(mockRepo.Object);
-            pageModel.Input = new ApplicationUserViewModel()
+            pageModel.Input = new ApplicationUserDto()
             {
                 FirstName = "Test",
                 Email = "testuser@email.com",

@@ -1,5 +1,5 @@
 ﻿using Core.Entities;
-using Identity.Interfaces;
+using Core.Interfaces;
 using Identity.Pages.Users;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;

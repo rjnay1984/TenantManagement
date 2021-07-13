@@ -1,5 +1,5 @@
-using Identity.Interfaces;
-using Identity.ViewModels;
+using Core.DTOs;
+using Core.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -17,7 +17,7 @@ namespace Identity.Pages.Users
             _userRepository = userRepository;
         }
 
-        public ApplicationUserViewModel AppUser { get; set; }
+        public ApplicationUserDto AppUser { get; set; }
 
         public async Task<IActionResult> OnGetAsync(string id)
         {
@@ -35,7 +35,7 @@ namespace Identity.Pages.Users
 
             var role = await _userRepository.GetUserRoleAsync(user);
 
-            var userResult = new ApplicationUserViewModel()
+            var userResult = new ApplicationUserDto()
             {
                 Id = user.Id,
                 FirstName = user.FirstName,

@@ -1,15 +1,15 @@
 ﻿using Core.Entities;
 using System.ComponentModel.DataAnnotations;
 
-namespace Identity.ViewModels
+namespace Core.DTOs
 {
-    public class ApplicationUserViewModel
+    public class ApplicationUserDto
     {
-        public ApplicationUserViewModel()
+        public ApplicationUserDto()
         {
         }
 
-        public ApplicationUserViewModel(ApplicationUser user, string role)
+        public ApplicationUserDto(ApplicationUser user, string role)
         {
             Id = user.Id;
             Email = user.Email;

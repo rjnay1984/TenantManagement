@@ -1,5 +1,5 @@
 using Core.Entities;
-using Identity.Interfaces;
+using Core.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Linq;

@@ -1,6 +1,6 @@
+using Core.DTOs;
 using Core.Entities;
-using Identity.Interfaces;
-using Identity.ViewModels;
+using Core.Interfaces;
 using IdentityServer4.Extensions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -23,7 +23,7 @@ namespace Identity.Pages.Users
         public string StatusMessage { get; set; }
 
         [BindProperty]
-        public ApplicationUserViewModel Input { get; set; }
+        public ApplicationUserDto Input { get; set; }
 
         public IList<IdentityRole> AppRoles { get; set; }
 

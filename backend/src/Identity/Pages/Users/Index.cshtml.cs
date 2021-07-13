@@ -1,5 +1,5 @@
-using Identity.Interfaces;
-using Identity.ViewModels;
+using Core.DTOs;
+using Core.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -21,7 +21,7 @@ namespace Identity.Pages.Users
         [TempData]
         public string StatusMessage { get; set; }
 
-        public IList<ApplicationUserViewModel> AppUsers { get; private set; }
+        public IReadOnlyList<ApplicationUserDto> AppUsers { get; private set; }
 
         public async Task OnGetAsync()
         {

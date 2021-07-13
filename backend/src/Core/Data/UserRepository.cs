@@ -1,9 +1,8 @@
 ﻿using Core.Data;
+using Core.DTOs;
 using Core.Entities;
-using Identity.Interfaces;
-using Identity.ViewModels;
+using Core.Interfaces;
 using IdentityModel;
-using IdentityServer4.Extensions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
@@ -29,13 +28,13 @@ namespace Identity.Data
             _roleManager = roleManager;
         }
 
-        public async Task<IList<ApplicationUserViewModel>> GetUsersAsync()
+        public async Task<IReadOnlyList<ApplicationUserDto>> GetUsersAsync()
         {
             var query = await (
                 from u in _context.Users
                 join ur in _context.UserRoles on u.Id equals ur.UserId
                 from r in _context.Roles.Where(r => r.Id == ur.RoleId)
-                select new ApplicationUserViewModel()
+                select new ApplicationUserDto()
                 {
                     Id = u.Id,
                     Email = u.Email,
@@ -94,11 +93,11 @@ namespace Identity.Data
         public async Task<IdentityResult> AddUserClaimsAsync(ApplicationUser user)
         {
             var claims = new List<Claim>();
-            if (!user.FirstName.IsNullOrEmpty() && user.LastName.IsNullOrEmpty())
+            if (!string.IsNullOrEmpty(user.FirstName) && string.IsNullOrEmpty(user.LastName))
             {
                 claims.Add(new Claim(JwtClaimTypes.GivenName, user.FirstName));
             }
-            else if (user.FirstName.IsNullOrEmpty() && !user.LastName.IsNullOrEmpty())
+            else if (string.IsNullOrEmpty(user.FirstName) && !string.IsNullOrEmpty(user.LastName))
             {
                 claims.Add(new Claim(JwtClaimTypes.FamilyName, user.LastName));
             }

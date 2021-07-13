@@ -1,6 +1,6 @@
-﻿using Identity.Interfaces;
+﻿using Core.DTOs;
+using Core.Interfaces;
 using Identity.Pages.Users;
-using Identity.ViewModels;
 using Moq;
 using System.Threading.Tasks;
 using Xunit;
@@ -16,7 +16,7 @@ namespace Identity.Tests.UnitTests.Users
             var mockRepo = new Mock<IUserRepository>();
             var expectedUser = MockUserRepo.GetTestAppUser();
             var expectedRole = MockUserRepo.GetUserRole();
-            var expectedUserViewModel = new ApplicationUserViewModel(expectedUser, expectedRole);
+            var expectedUserViewModel = new ApplicationUserDto(expectedUser, expectedRole);
             mockRepo.Setup(repo => repo.GetUserAsync(expectedUser.Id).Result).Returns(expectedUser);
             mockRepo.Setup(repo => repo.GetUserRoleAsync(expectedUser).Result).Returns(expectedRole);
             var pageModel = new DetailsModel(mockRepo.Object);

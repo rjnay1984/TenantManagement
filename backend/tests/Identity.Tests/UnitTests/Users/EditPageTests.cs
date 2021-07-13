@@ -1,5 +1,6 @@
-﻿using Core.Entities;
-using Identity.Interfaces;
+﻿using Core.DTOs;
+using Core.Entities;
+using Core.Interfaces;
 using Identity.Pages.Users;
 using IdentityModel;
 using Microsoft.AspNetCore.Identity;
@@ -73,7 +74,7 @@ namespace Identity.Tests.UnitTests.Users
             mockRepo.Setup(r => r.GetRolesAsync().Result).Returns(MockUserRepo.GetTestRoles());
             mockRepo.Setup(r => r.GetUserAsync(It.IsAny<string>()).Result).Returns(user);
             var pageModel = new EditModel(mockRepo.Object);
-            pageModel.Input = new ViewModels.ApplicationUserViewModel()
+            pageModel.Input = new ApplicationUserDto()
             {
                 Id = user.Id,
                 FirstName = user.FirstName,
@@ -104,7 +105,7 @@ namespace Identity.Tests.UnitTests.Users
                 new IdentityError() { Code = "Error", Description = "This is an error." }
             }));
             var pageModel = new EditModel(mockRepo.Object);
-            pageModel.Input = new ViewModels.ApplicationUserViewModel()
+            pageModel.Input = new ApplicationUserDto()
             {
                 Id = user.Id,
                 FirstName = user.FirstName,
@@ -136,7 +137,7 @@ namespace Identity.Tests.UnitTests.Users
                 new IdentityError() { Code = "UserNameError", Description = "This is an error." }
             }));
             var pageModel = new EditModel(mockRepo.Object);
-            pageModel.Input = new ViewModels.ApplicationUserViewModel()
+            pageModel.Input = new ApplicationUserDto()
             {
                 Id = user.Id,
                 FirstName = user.FirstName,
@@ -174,7 +175,7 @@ namespace Identity.Tests.UnitTests.Users
                new IdentityError() { Code = "RemoveClaimError", Description = "This is an error." }
             }));
             var pageModel = new EditModel(mockRepo.Object);
-            pageModel.Input = new ViewModels.ApplicationUserViewModel()
+            pageModel.Input = new ApplicationUserDto()
             {
                 Id = user.Id,
                 FirstName = user.FirstName,
@@ -213,7 +214,7 @@ namespace Identity.Tests.UnitTests.Users
                 new IdentityError() { Code = string.Empty, Description = "This is an error." }
             }));
             var pageModel = new EditModel(mockRepo.Object);
-            pageModel.Input = new ViewModels.ApplicationUserViewModel()
+            pageModel.Input = new ApplicationUserDto()
             {
                 Id = user.Id,
                 FirstName = user.FirstName,
@@ -253,7 +254,7 @@ namespace Identity.Tests.UnitTests.Users
                 new IdentityError() { Code = string.Empty, Description = "This is an error." }
             }));
             var pageModel = new EditModel(mockRepo.Object);
-            pageModel.Input = new ViewModels.ApplicationUserViewModel()
+            pageModel.Input = new ApplicationUserDto()
             {
                 Id = user.Id,
                 FirstName = user.FirstName,
@@ -295,7 +296,7 @@ namespace Identity.Tests.UnitTests.Users
                 new IdentityError() { Code = string.Empty, Description = "This is an error." }
             }));
             var pageModel = new EditModel(mockRepo.Object);
-            pageModel.Input = new ViewModels.ApplicationUserViewModel()
+            pageModel.Input = new ApplicationUserDto()
             {
                 Id = user.Id,
                 FirstName = user.FirstName,
@@ -338,7 +339,7 @@ namespace Identity.Tests.UnitTests.Users
                 new IdentityError() { Code = string.Empty, Description = "This is an error." }
             }));
             var pageModel = new EditModel(mockRepo.Object);
-            pageModel.Input = new ViewModels.ApplicationUserViewModel()
+            pageModel.Input = new ApplicationUserDto()
             {
                 Id = user.Id,
                 FirstName = user.FirstName,
@@ -378,7 +379,7 @@ namespace Identity.Tests.UnitTests.Users
             mockRepo.Setup(r => r.RemoveFromRoleAsync(It.IsAny<ApplicationUser>(), It.IsAny<string>()).Result).Returns(IdentityResult.Success);
             mockRepo.Setup(r => r.AddToRoleAsync(It.IsAny<ApplicationUser>(), It.IsAny<string>()).Result).Returns(IdentityResult.Success);
             var pageModel = new EditModel(mockRepo.Object);
-            pageModel.Input = new ViewModels.ApplicationUserViewModel()
+            pageModel.Input = new ApplicationUserDto()
             {
                 Id = user.Id,
                 FirstName = user.FirstName,
