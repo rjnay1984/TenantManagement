@@ -1,5 +1,4 @@
-﻿using Core.Data;
-using Core.DTOs;
+﻿using Core.DTOs;
 using Core.Entities;
 using Core.Interfaces;
 using IdentityModel;
@@ -10,7 +9,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
-namespace Identity.Data
+namespace Core.Data
 {
     public class UserRepository : IUserRepository
     {
@@ -62,7 +61,7 @@ namespace Identity.Data
 
         public async Task<IList<IdentityRole>> GetRolesAsync()
         {
-            return await _roleManager.Roles.ToListAsync();
+            return await _context.Roles.ToListAsync();
         }
 
         public async Task<IdentityResult> CreateUserAsync(ApplicationUser user)
@@ -72,7 +71,7 @@ namespace Identity.Data
 
         public async Task<IdentityResult> AddToRoleAsync(ApplicationUser user, string role)
         {
-            return await _userManager.AddToRoleAsync(user, null);
+            return await _userManager.AddToRoleAsync(user, role);
         }
 
         public async Task<IdentityResult> RemoveFromRoleAsync(ApplicationUser user, string role)
