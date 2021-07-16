@@ -55,6 +55,7 @@ namespace Core.Data
             {
                 alice = new ApplicationUser
                 {
+                    Id = "alice-123",
                     UserName = "AliceSmith@email.com",
                     Email = "AliceSmith@email.com",
                     FirstName = "Alice",
@@ -91,6 +92,7 @@ namespace Core.Data
             {
                 bob = new ApplicationUser
                 {
+                    Id = "bob-123",
                     FirstName = "Bob",
                     LastName = "Smith",
                     UserName = "BobSmith@email.com",
@@ -127,6 +129,7 @@ namespace Core.Data
             {
                 aaron = new ApplicationUser
                 {
+                    Id = "aaron-123",
                     FirstName = "Aaron",
                     LastName = "Rodgers",
                     UserName = "aaron@email.com",
@@ -150,6 +153,80 @@ namespace Core.Data
                             new Claim(JwtClaimTypes.Name, $"{aaron.FirstName} {aaron.LastName}"),
                             new Claim(JwtClaimTypes.GivenName, aaron.FirstName),
                             new Claim(JwtClaimTypes.FamilyName, aaron.LastName),
+                        }).Result;
+                if (!result.Succeeded)
+                {
+                    throw new Exception(result.Errors.First().Description);
+                }
+
+            }
+
+            var kurt = userManager.FindByNameAsync("kurt").Result;
+            if (kurt == null)
+            {
+                kurt = new ApplicationUser
+                {
+                    Id = "kurt-123",
+                    FirstName = "Kurt",
+                    LastName = "Benkert",
+                    UserName = "kurt@email.com",
+                    Email = "kurt@email.com",
+                    EmailConfirmed = true
+                };
+
+                var result = userManager.CreateAsync(kurt, "Pass123$").Result;
+                if (!result.Succeeded)
+                {
+                    throw new Exception(result.Errors.First().Description);
+                }
+
+                result = userManager.AddToRoleAsync(kurt, "Tenant").Result;
+                if (!result.Succeeded)
+                {
+                    throw new Exception(result.Errors.First().Description);
+                }
+
+                result = userManager.AddClaimsAsync(kurt, new Claim[]{
+                            new Claim(JwtClaimTypes.Name, $"{kurt.FirstName} {kurt.LastName}"),
+                            new Claim(JwtClaimTypes.GivenName, kurt.FirstName),
+                            new Claim(JwtClaimTypes.FamilyName, kurt.LastName),
+                        }).Result;
+                if (!result.Succeeded)
+                {
+                    throw new Exception(result.Errors.First().Description);
+                }
+
+            }
+
+            var david = userManager.FindByNameAsync("david").Result;
+            if (david == null)
+            {
+                david = new ApplicationUser
+                {
+                    Id = "david-123",
+                    FirstName = "David",
+                    LastName = "Bahktiari",
+                    UserName = "david@email.com",
+                    Email = "david@email.com",
+                    EmailConfirmed = true
+                };
+
+                var result = userManager.CreateAsync(david, "Pass123$").Result;
+                if (!result.Succeeded)
+                {
+                    throw new Exception(result.Errors.First().Description);
+                }
+
+                result = userManager.AddToRoleAsync(david, "Tenant").Result;
+                if (!result.Succeeded)
+                {
+                    throw new Exception(result.Errors.First().Description);
+                }
+
+                result = userManager.AddClaimsAsync(david, new Claim[]{
+                            new Claim(JwtClaimTypes.Name, $"{david.FirstName} {david.LastName}"),
+                            new Claim(JwtClaimTypes.GivenName, david.FirstName),
+                            new Claim(JwtClaimTypes.FamilyName, david.LastName),
                         }).Result;
                 if (!result.Succeeded)
                 {
