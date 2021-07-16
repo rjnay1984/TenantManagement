@@ -1,5 +1,7 @@
+using Core.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -20,7 +22,8 @@ namespace API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
+            services.AddDbContext<APIContext>(opt =>
+                opt.UseNpgsql(Configuration.GetConnectionString("APIConnection")));
             services.AddControllers();
             services.AddCors();
             services.AddAuthentication("Bearer")
