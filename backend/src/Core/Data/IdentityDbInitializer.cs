@@ -55,9 +55,8 @@ namespace Core.Data
             {
                 alice = new ApplicationUser
                 {
-                    Id = "alice-123",
-                    UserName = "AliceSmith@email.com",
-                    Email = "AliceSmith@email.com",
+                    UserName = "alicesmith@email.com",
+                    Email = "alicesmith@email.com",
                     FirstName = "Alice",
                     LastName = "Smith",
                     EmailConfirmed = true,
@@ -92,11 +91,10 @@ namespace Core.Data
             {
                 bob = new ApplicationUser
                 {
-                    Id = "bob-123",
                     FirstName = "Bob",
                     LastName = "Smith",
-                    UserName = "BobSmith@email.com",
-                    Email = "BobSmith@email.com",
+                    UserName = "bobsmith@email.com",
+                    Email = "bobsmith@email.com",
                     EmailConfirmed = true
                 };
                 var result = userManager.CreateAsync(bob, "Pass123$").Result;
@@ -129,7 +127,6 @@ namespace Core.Data
             {
                 aaron = new ApplicationUser
                 {
-                    Id = "aaron-123",
                     FirstName = "Aaron",
                     LastName = "Rodgers",
                     UserName = "aaron@email.com",
@@ -166,7 +163,6 @@ namespace Core.Data
             {
                 kurt = new ApplicationUser
                 {
-                    Id = "kurt-123",
                     FirstName = "Kurt",
                     LastName = "Benkert",
                     UserName = "kurt@email.com",
@@ -203,7 +199,6 @@ namespace Core.Data
             {
                 david = new ApplicationUser
                 {
-                    Id = "david-123",
                     FirstName = "David",
                     LastName = "Bahktiari",
                     UserName = "david@email.com",
