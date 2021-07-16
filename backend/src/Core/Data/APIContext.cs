@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Core.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace Core.Data
 {
@@ -7,5 +8,7 @@ namespace Core.Data
         public APIContext(DbContextOptions<APIContext> options) : base(options)
         {
         }
+
+        public DbSet<Building> Buildings { get; set; }
     }
 }
