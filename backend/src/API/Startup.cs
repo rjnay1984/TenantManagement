@@ -24,8 +24,8 @@ namespace API
         {
             services.AddDbContext<APIContext>(opt =>
                 opt.UseNpgsql(Configuration.GetConnectionString("APIConnection")));
-            services.AddControllers();
-            services.AddCors();
+            services.AddControllers().AddNewtonsoftJson(opt =>
+                opt.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
             services.AddAuthentication("Bearer")
                 .AddJwtBearer("Bearer", options =>
                 {

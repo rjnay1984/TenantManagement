@@ -10,5 +10,6 @@ namespace Core.Data
         }
 
         public DbSet<Building> Buildings { get; set; }
+        public DbSet<Unit> Units { get; set; }
     }
 }
