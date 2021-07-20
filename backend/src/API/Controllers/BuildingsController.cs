@@ -1,5 +1,6 @@
 ﻿using Core.Data;
 using Core.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
@@ -10,6 +11,7 @@ namespace API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(Roles = "Admin, Landlord")]
     public class BuildingsController : ControllerBase
     {
         private readonly APIContext _context;
@@ -30,7 +32,9 @@ namespace API.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Building>> GetBuilding(int id)
         {
-            var building = await _context.Buildings.FindAsync(id);
+            var building = await _context.Buildings
+                .Include(b => b.Units)
+                .FirstOrDefaultAsync(b => b.BuildingId == id);
 
             if (building == null)
             {

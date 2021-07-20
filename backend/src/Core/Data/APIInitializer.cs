@@ -14,6 +14,19 @@ namespace Core.Data
 
             context.AddRange(buildings);
             context.SaveChanges();
+
+            var rooms = new Unit[]
+            {
+                new Unit() { UnitNumber = "1A", BuildingId = 1 },
+                new Unit() { UnitNumber = "2B", BuildingId = 1 },
+                new Unit() { UnitNumber = "3C", BuildingId = 1 },
+                new Unit() { UnitNumber = "4D", BuildingId = 2 },
+                new Unit() { UnitNumber = "5E", BuildingId = 2 },
+                new Unit() { UnitNumber = "6F", BuildingId = 2 }
+            };
+
+            context.AddRange(rooms);
+            context.SaveChanges();
         }
     }
 }

@@ -1,4 +1,6 @@
-﻿namespace Core.Entities
+﻿using System.Collections.Generic;
+
+namespace Core.Entities
 {
     public class Building
     {
@@ -8,5 +10,6 @@
         public string City { get; set; }
         public string State { get; set; }
         public string ZipCode { get; set; }
+        public List<Unit> Units { get; set; }
     }
 }
