@@ -1,6 +1,6 @@
-﻿using Core.DTOs;
-using Core.Entities;
-using Core.Interfaces;
+﻿using Identity.DTOs;
+using Identity.Entities;
+using Identity.Interfaces;
 using IdentityModel;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -9,7 +9,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
-namespace Core.Data
+namespace Identity.Data
 {
     public class UserRepository : IUserRepository
     {

@@ -1,5 +1,5 @@
-﻿using Core.Data;
-using Core.Entities;
+﻿using Identity.Data;
+using Identity.Entities;
 using FluentAssertions;
 using IdentityModel;
 using Microsoft.AspNetCore.Identity;
@@ -10,7 +10,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace Core.Tests.UnitTests
+namespace Identity.Tests.UnitTests
 {
     public class UserRepoTests
     {

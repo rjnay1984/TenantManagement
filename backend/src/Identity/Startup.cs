@@ -1,6 +1,6 @@
-using Core.Data;
-using Core.Entities;
-using Core.Interfaces;
+using Identity.Data;
+using Identity.Entities;
+using Identity.Interfaces;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;

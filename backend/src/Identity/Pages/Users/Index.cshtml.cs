@@ -1,5 +1,5 @@
-using Core.DTOs;
-using Core.Interfaces;
+using Identity.DTOs;
+using Identity.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;

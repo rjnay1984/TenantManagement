@@ -1,6 +1,6 @@
-﻿using Core.DTOs;
-using Core.Entities;
-using Core.Interfaces;
+﻿using Identity.DTOs;
+using Identity.Entities;
+using Identity.Interfaces;
 using Identity.Pages.Users;
 using IdentityModel;
 using Microsoft.AspNetCore.Identity;

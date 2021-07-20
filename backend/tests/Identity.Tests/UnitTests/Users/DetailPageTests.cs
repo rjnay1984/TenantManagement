@@ -1,5 +1,5 @@
-﻿using Core.DTOs;
-using Core.Interfaces;
+﻿using Identity.DTOs;
+using Identity.Interfaces;
 using Identity.Pages.Users;
 using Moq;
 using System.Threading.Tasks;

@@ -1,8 +1,8 @@
-﻿using Core.Data;
+﻿using Identity.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Core.Tests
+namespace Identity.Tests
 {
     public class Utilities
     {
