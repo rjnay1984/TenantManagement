@@ -1,4 +1,4 @@
-﻿using Core.Interfaces;
+﻿using Identity.Interfaces;
 using Identity.Pages.Users;
 using Moq;
 using System.Threading.Tasks;

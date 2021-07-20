@@ -1,5 +1,5 @@
-﻿using Core.DTOs;
-using Core.Entities;
+﻿using Identity.DTOs;
+using Identity.Entities;
 using Microsoft.AspNetCore.Identity;
 using System.Collections.Generic;
 using System.Linq;

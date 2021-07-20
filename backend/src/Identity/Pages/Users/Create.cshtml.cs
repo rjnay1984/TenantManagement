@@ -1,6 +1,6 @@
-using Core.DTOs;
-using Core.Entities;
-using Core.Interfaces;
+using Identity.DTOs;
+using Identity.Entities;
+using Identity.Interfaces;
 using IdentityServer4.Extensions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;

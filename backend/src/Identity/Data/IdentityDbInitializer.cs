@@ -1,11 +1,11 @@
-﻿using Core.Entities;
+﻿using Identity.Entities;
 using IdentityModel;
 using Microsoft.AspNetCore.Identity;
 using System;
 using System.Linq;
 using System.Security.Claims;
 
-namespace Core.Data
+namespace Identity.Data
 {
     public static class IdentityDbInitializer
     {

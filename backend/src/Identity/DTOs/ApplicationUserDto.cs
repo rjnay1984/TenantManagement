@@ -1,7 +1,7 @@
-﻿using Core.Entities;
+﻿using Identity.Entities;
 using System.ComponentModel.DataAnnotations;
 
-namespace Core.DTOs
+namespace Identity.DTOs
 {
     public class ApplicationUserDto
     {

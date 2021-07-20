@@ -1,11 +1,11 @@
-﻿using Core.DTOs;
-using Core.Entities;
+﻿using Identity.DTOs;
+using Identity.Entities;
 using Microsoft.AspNetCore.Identity;
 using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
-namespace Core.Interfaces
+namespace Identity.Interfaces
 {
     public interface IUserRepository
     {

@@ -17,12 +17,12 @@ namespace Core.Data
 
             var rooms = new Unit[]
             {
-                new Unit() { UnitNumber = "1A", BuildingId = 1 },
-                new Unit() { UnitNumber = "2B", BuildingId = 1 },
-                new Unit() { UnitNumber = "3C", BuildingId = 1 },
-                new Unit() { UnitNumber = "4D", BuildingId = 2 },
-                new Unit() { UnitNumber = "5E", BuildingId = 2 },
-                new Unit() { UnitNumber = "6F", BuildingId = 2 }
+                new Unit() { UnitNumber = "1A", Bedrooms = 2, Bathrooms = 1, BuildingId = 1 },
+                new Unit() { UnitNumber = "2B", Bedrooms = 1, Bathrooms = 1, BuildingId = 1 },
+                new Unit() { UnitNumber = "3C", Bedrooms = 3, Bathrooms = 2, BuildingId = 1 },
+                new Unit() { UnitNumber = "4D", Bedrooms = 2, Bathrooms = 1, BuildingId = 2 },
+                new Unit() { UnitNumber = "5E", Bedrooms = 1, Bathrooms = 1, BuildingId = 2 },
+                new Unit() { UnitNumber = "6F", Bedrooms = 3, Bathrooms = 1, BuildingId = 2 }
             };
 
             context.AddRange(rooms);
