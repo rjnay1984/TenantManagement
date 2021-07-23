@@ -2,9 +2,8 @@
 
 namespace Core.Entities
 {
-    public class Unit
+    public class Unit : BaseEntity
     {
-        public int UnitId { get; set; }
         [Required]
         public string UnitNumber { get; set; }
         [Required]
