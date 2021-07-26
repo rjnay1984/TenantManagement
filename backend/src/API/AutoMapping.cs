@@ -9,6 +9,7 @@ namespace API
         public AutoMapping()
         {
             CreateMap<Building, BuildingListResult>();
+            CreateMap<Building, BuildingResult>();
         }
     }
 }
