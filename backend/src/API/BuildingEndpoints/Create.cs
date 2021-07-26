@@ -2,12 +2,14 @@
 using AutoMapper;
 using Core.Entities;
 using Core.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace API.BuildingEndpoints
 {
+    [Authorize(Roles = "Admin, Landlord")]
     public class Create : BaseAsyncEndpoint
         .WithRequest<CreateBuildingCommand>
         .WithResponse<CreateBuildingResult>
