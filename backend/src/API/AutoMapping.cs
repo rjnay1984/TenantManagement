@@ -8,8 +8,11 @@ namespace API
     {
         public AutoMapping()
         {
+            CreateMap<CreateBuildingCommand, Building>();
+
             CreateMap<Building, BuildingListResult>();
             CreateMap<Building, BuildingResult>();
+            CreateMap<Building, CreateBuildingResult>();
         }
     }
 }
