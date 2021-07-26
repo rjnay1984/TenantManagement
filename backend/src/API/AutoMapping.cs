@@ -9,10 +9,12 @@ namespace API
         public AutoMapping()
         {
             CreateMap<CreateBuildingCommand, Building>();
+            CreateMap<UpdateBuildingCommand, Building>();
 
             CreateMap<Building, BuildingListResult>();
             CreateMap<Building, BuildingResult>();
             CreateMap<Building, CreateBuildingResult>();
+            CreateMap<Building, UpdateBuildingResult>();
         }
     }
 }
