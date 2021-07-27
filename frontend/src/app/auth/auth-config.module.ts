@@ -7,8 +7,8 @@ export function configureAuth(oidcConfigService: OidcConfigService): () => Promi
       stsServer: 'https://localhost:5001',
       redirectUrl: window.location.origin,
       postLogoutRedirectUri: window.location.origin,
-      clientId: 'interactive',
-      scope: 'openid profile email offline_access role', // 'openid profile offline_access ' + your scopes
+      clientId: 'buildingspa',
+      scope: 'openid profile email role', // 'openid profile offline_access ' + your scopes
       responseType: 'code',
       silentRenew: true,
       useRefreshToken: true,
