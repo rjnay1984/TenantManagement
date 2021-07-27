@@ -1,9 +1,8 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
-namespace Core.Entities
+namespace API.BuildingEndpoints
 {
-    public class Building : BaseEntity
+    public class CreateBuildingCommand
     {
         [Required]
         public string Name { get; set; }
@@ -11,7 +10,6 @@ namespace Core.Entities
         public string City { get; set; }
         public string State { get; set; }
         public string ZipCode { get; set; }
-        public List<Unit> Units { get; set; }
         public string Landlord { get; set; }
     }
 }
